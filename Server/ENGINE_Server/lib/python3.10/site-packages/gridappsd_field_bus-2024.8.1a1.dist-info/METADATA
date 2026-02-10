@@ -1,0 +1,22 @@
+Metadata-Version: 2.1
+Name: gridappsd-field-bus
+Version: 2024.8.1a1
+Summary: GridAPPS-D Field Bus Implementation
+Home-page: https://gridappsd.readthedocs.io
+License: BSD-3-Clause
+Keywords: gridappsd,grid,activmq,powergrid,simulation,library
+Author: C. Allwardt
+Author-email: 3979063+craig8@users.noreply.github.com
+Requires-Python: >=3.8.1,<4.0
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: cim-graph (>=0.1.1a0)
+Requires-Dist: gridappsd-python (>=2024.8.1a1,<2025.0.0)
+Project-URL: Repository, https://github.com/GRIDAPPSD/gridappsd-python
+Description-Content-Type: text/markdown
+
+

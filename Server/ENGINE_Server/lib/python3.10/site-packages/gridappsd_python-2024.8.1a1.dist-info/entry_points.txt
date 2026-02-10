@@ -1,0 +1,4 @@
+[console_scripts]
+gridappsd-cli=gridappsd.cli:_main
+register_app=gridappsd.register_app:main
+

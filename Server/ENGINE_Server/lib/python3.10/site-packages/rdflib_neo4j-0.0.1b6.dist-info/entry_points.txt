@@ -1,0 +1,4 @@
+[rdf.plugins.store]
+neo4j-cypher = rdflib_neo4j.neo4jcypher:CypherNeo4jStore
+neo4j-n10s = rdflib_neo4j.neo4j:N10sNeo4jStore
+

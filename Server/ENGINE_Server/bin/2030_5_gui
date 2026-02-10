@@ -1,0 +1,6 @@
+#!/home/mess/Documents/ENGINE/Server/ENGINE_Server/bin/python
+import sys
+from ieee_2030_5_gui.__main__ import _main
+
+if __name__ == '__main__':
+    sys.exit(_main())
