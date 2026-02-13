@@ -1,0 +1,3 @@
+navigate to (path)/ENGINE/IEEE-2030.5-Client/build
+run :/client_test ens33 ../pti_dev.x509 ../certs/csep_root.pem tm:1
+
