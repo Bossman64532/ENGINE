@@ -1,0 +1,89 @@
+================================================================================
+REQUEST [2026-02-20T14:16:59.442328]
+Request ID: 0a3b9cde
+Method: GET
+Path: /dcap
+From: 192.168.92.130
+
+Body: (empty)
+
+RESPONSE [2026-02-20T14:16:59.489293]
+Request ID: 0a3b9cde
+Status: 200
+Duration: 0.047s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-02-20T14:16:59.577105]
+Request ID: 48ef7759
+Method: GET
+Path: /tm
+From: 192.168.92.130
+
+Body: (empty)
+
+RESPONSE [2026-02-20T14:16:59.729940]
+Request ID: 48ef7759
+Status: 200
+Duration: 0.155s
+
+Body:
+<Time xmlns="urn:ieee:std:2030.5:ns" pollRate="900">
+  <currentTime>1771625819</currentTime>
+  <dstEndTime>1793523600</dstEndTime>
+  <dstOffset>3600</dstOffset>
+  <localTime>1771597019</localTime>
+  <tzOffset>-28800</tzOffset>
+
+</Time>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-02-20T14:16:59.775439]
+Request ID: 07185141
+Method: GET
+Path: /edev
+From: 192.168.92.130
+
+Body: (empty)
+
+RESPONSE [2026-02-20T14:16:59.794762]
+Request ID: 07185141
+Status: 200
+Duration: 0.023s
+
+Body:
+<EndDeviceList xmlns="urn:ieee:std:2030.5:ns" href="/edev" subscribable="0" all="1" results="1" pollRate="30">
+  <EndDevice href="/edev_38879" subscribable="0">
+    <ConfigurationLink href="/edev_38879_cfg"/>
+    <DERListLink href="/edev_38879_der" all="0"/>
+    <DeviceInformationLink href="/edev_38879_di"/>
+    <DeviceStatusLink href="/edev_38879_dstat"/>
+    <lFDI>bfbc64bfee0cb5a77c550b5f81f3fc7bbd19e613</lFDI>
+    <LogEventListLink href="/edev_38879_lel" all="0"/>
+    <PowerStatusLink href="/edev_38879_ps"/>
+    <sFDI>514687170542</sFDI>
+    <changedTime>1771625725</changedTime>
+    <enabled>true</enabled>
+    <FunctionSetAssignmentsListLink href="/edev_38879_fsa" all="1"/>
+    <postRate>3</postRate>
+    <RegistrationLink href="/edev_38879_rg"/>
+  </EndDevice>
+
+</EndDeviceList>
+
+================================================================================
+

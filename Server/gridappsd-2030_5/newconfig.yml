@@ -1,0 +1,96 @@
+# Server binding - use your VM's IP
+server: 192.168.92.130
+port: 8443
+service_name: IEEE_2030_5
+proxy_hostname: 192.168.92.130:8443
+proxy_enabled: True
+
+# Dual server configuration for HTTP admin access
+dual_server_enabled: true
+admin_http_port: 5001
+
+# TLS/Certificate configuration
+tls_repository: "~/tls"
+openssl_cnf: "openssl.cnf"
+
+# Server mode
+server_mode: enddevices_create_on_start
+
+# LFDI calculation method
+lfdi_mode: lfdi_mode_from_file
+
+# Generate admin certificate
+generate_admin_cert: True
+
+# Poll rates (in seconds)
+log_event_list_poll_rate: 30
+device_capability_poll_rate: 30
+mirror_usage_point_post_rate: 30
+device_capability: 30
+end_device_list: 30
+der_list: 30
+der_program_list: 30
+fsa_list: 30
+mirror_usage_point: 30
+usage_point: 30
+registration: 30
+log_event_list: 30
+reading_set: 30
+time: 30
+
+poll_rate: 30
+
+# Storage configuration - IMPORTANT: cleanse_storage must be false
+cleanse_storage: false
+storage_path: data_store
+database_backend: sqlite
+database_path: /home/mess/.ieee_2030_5_data/custom_points.db
+
+# Enable debug logging
+debug_client_traffic: true
+
+# Default DER settings
+include_default_der_on_all_devices: true
+include_default_der_program_on_ders: true
+
+# Default program for DERs
+default_program:
+  description: Default Program
+  primacy: 0
+  DefaultDERControl:
+    setESDelay: 30
+    setGradW: 1000
+    DERControlBase:
+      opModConnect: true
+      opModEnergize: true
+
+# Define test devices
+devices:
+  - id: dev1
+    pin: 111115
+    
+  - id: dev2
+    pin: 222225
+
+# Define programs
+programs:
+  - description: Program 1
+    primacy: 0
+    DefaultDERControl:
+      setESDelay: 30
+      setGradW: 1000
+      DERControlBase:
+        opModConnect: true
+        opModEnergize: true
+
+# Define curves
+curves:
+  - description: Volt-VAr Curve
+    curveType: opModVoltVar
+    CurveData:
+      - xvalue: 99
+        yvalue: 50
+      - xvalue: 103
+        yvalue: -50
+
+
