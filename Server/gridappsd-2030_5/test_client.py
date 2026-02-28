@@ -5,13 +5,13 @@ from ieee_2030_5.client.client import IEEE2030_5_Client
 
 # Certificate paths
 CA   = "/home/mess/tls/certs/ca.crt"
-CERT = "/home/mess/tls/certs/03.pem"        # dev1 certificate
-KEY  = "/home/mess/tls/private/dev1.pem"   # dev1 private key
+CERT = "/home/mess/tls/certs/04.pem"        # dev1 certificate
+KEY  = "/home/mess/tls/private/enphase1.pem"   # dev1 private key
 
 # Create client
 client = IEEE2030_5_Client(
    cafile=CA,
-   server_hostname="192.168.92.130",
+   server_hostname="192.168.92.131",
    keyfile=KEY,
    certfile=CERT,
    server_ssl_port=8443,

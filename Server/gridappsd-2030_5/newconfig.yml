@@ -1,3 +1,4 @@
+#Don't forget to run "rm -rf data_store" and "rm -rf ~/.ieee_2030_5_data"
 # Server binding - use your VM's IP
 server: 192.168.92.130
 port: 8443

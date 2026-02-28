@@ -1,0 +1,107 @@
+server: 192.168.92.130
+port: 8443
+service_name: IEEE_2030_5 #kinda optional ?
+
+proxy_hostname: 192.168.92.131:8443 # for the proxy (between server and client)
+proxy_enabled: True
+
+# TLS/Certificate configuration
+tls_repository: "~/tls"
+openssl_cnf: "openssl.cnf"
+
+# enddevices_register_access_only
+# enddevices_create_on_start
+# enddevices_allow_all_access
+server_mode: enddevices_create_on_start
+
+# Options:
+#   lfdi_mode_from_file             - sha256 hash of certificate file's content.
+#   lfdi_mode_from_cert_fingerprint - sha256 hash of the certificates fingerprint.
+#
+# default: lfdi_mode_from_cert_fingerprint
+lfdi_mode: lfdi_mode_from_file
+
+# Generate admin certificate
+generate_admin_cert: True
+
+# Poll rates (in seconds)
+log_event_list_poll_rate: 30
+device_capability_poll_rate: 30
+mirror_usage_point_post_rate: 30
+device_capability: 30
+end_device_list: 30
+der_list: 30
+der_program_list: 30
+fsa_list: 30
+mirror_usage_point: 30
+usage_point: 30
+registration: 30
+log_event_list: 30
+reading_set: 30
+time: 30
+
+poll_rate: 30
+
+# Storage configuration - IMPORTANT: cleanse_storage must be false
+cleanse_storage: false
+storage_path: data_store
+database_backend: sqlite
+database_path: /home/mess/.ieee_2030_5_data/custom_points.db
+
+# Enable debug logging
+debug_client_traffic: true
+
+# Default DER settings
+include_default_der_on_all_devices: true
+include_default_der_program_on_ders: true
+
+# Default program for DERs
+default_program:
+  description: Default Program
+  primacy: 0
+  DefaultDERControl:
+    setESDelay: 30
+    setGradW: 1000
+    DERControlBase:
+      opModConnect: true
+      opModEnergize: true
+      
+#gridappsd: (API endpoint)
+
+# Define test devices
+devices:
+  - id: enphase1 #objectid?
+    pin: 696969
+    device_categories: PHOTOVOLTAIC_SYSTEM
+    programs: Default Program
+    
+  - id: enphase2 #objectid?
+    pin: 696969
+    device_categories: PHOTOVOLTAIC_SYSTEM
+    programs: Default Program
+    
+    
+    
+
+# Define programs
+programs:
+  - description: Program 1
+    primacy: 0
+    DefaultDERControl:
+      setESDelay: 30
+      setGradW: 1000
+      DERControlBase:
+        opModConnect: true
+        opModEnergize: true
+
+# Define curves
+curves:
+  - description: Volt-VAr Curve
+    curveType: opModVoltVar
+    CurveData:
+      - xvalue: 99
+        yvalue: 50
+      - xvalue: 103
+        yvalue: -50
+
+

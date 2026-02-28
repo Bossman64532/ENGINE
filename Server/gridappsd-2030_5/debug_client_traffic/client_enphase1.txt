@@ -1,0 +1,267 @@
+================================================================================
+REQUEST [2026-02-27T13:33:11.596636]
+Request ID: b8803017
+Method: GET
+Path: /dcap
+From: 192.168.92.130
+
+Body: (empty)
+
+RESPONSE [2026-02-27T13:33:11.624736]
+Request ID: b8803017
+Status: 200
+Duration: 0.026s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-02-27T13:33:11.691495]
+Request ID: d5ebe379
+Method: GET
+Path: /tm
+From: 192.168.92.130
+
+Body: (empty)
+
+RESPONSE [2026-02-27T13:33:11.762784]
+Request ID: d5ebe379
+Status: 200
+Duration: 0.074s
+
+Body:
+<Time xmlns="urn:ieee:std:2030.5:ns" pollRate="900">
+  <currentTime>1772227991</currentTime>
+  <dstEndTime>1793523600</dstEndTime>
+  <dstOffset>3600</dstOffset>
+  <localTime>1772199191</localTime>
+  <tzOffset>-28800</tzOffset>
+
+</Time>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-02-27T13:33:11.865411]
+Request ID: 6e87f9c6
+Method: GET
+Path: /edev
+From: 192.168.92.130
+
+Body: (empty)
+
+RESPONSE [2026-02-27T13:33:11.910683]
+Request ID: 6e87f9c6
+Status: 200
+Duration: 0.038s
+
+Body:
+<EndDeviceList xmlns="urn:ieee:std:2030.5:ns" href="/edev" subscribable="0" all="1" results="1" pollRate="30">
+  <EndDevice href="/edev_10272" subscribable="0">
+    <ConfigurationLink href="/edev_10272_cfg"/>
+    <DERListLink href="/edev_10272_der" all="0"/>
+    <DeviceInformationLink href="/edev_10272_di"/>
+    <DeviceStatusLink href="/edev_10272_dstat"/>
+    <lFDI>d681ffbdfa58da49e73beec73d7aa04b53d0803e</lFDI>
+    <LogEventListLink href="/edev_10272_lel" all="0"/>
+    <PowerStatusLink href="/edev_10272_ps"/>
+    <sFDI>575815014077</sFDI>
+    <changedTime>1772227667</changedTime>
+    <enabled>true</enabled>
+    <FunctionSetAssignmentsListLink href="/edev_10272_fsa" all="1"/>
+    <postRate>3</postRate>
+    <RegistrationLink href="/edev_10272_rg"/>
+  </EndDevice>
+
+</EndDeviceList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-02-27T13:38:16.654578]
+Request ID: a071a97a
+Method: GET
+Path: /dcap
+From: 192.168.92.130
+
+Body: (empty)
+
+RESPONSE [2026-02-27T13:38:16.689199]
+Request ID: a071a97a
+Status: 200
+Duration: 0.035s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-02-27T13:38:16.763703]
+Request ID: 76d6690a
+Method: GET
+Path: /tm
+From: 192.168.92.130
+
+Body: (empty)
+
+RESPONSE [2026-02-27T13:38:16.843988]
+Request ID: 76d6690a
+Status: 200
+Duration: 0.083s
+
+Body:
+<Time xmlns="urn:ieee:std:2030.5:ns" pollRate="900">
+  <currentTime>1772228296</currentTime>
+  <dstEndTime>1793523600</dstEndTime>
+  <dstOffset>3600</dstOffset>
+  <localTime>1772199496</localTime>
+  <tzOffset>-28800</tzOffset>
+
+</Time>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-02-27T13:38:16.929612]
+Request ID: 03baf110
+Method: GET
+Path: /edev
+From: 192.168.92.130
+
+Body: (empty)
+
+RESPONSE [2026-02-27T13:38:16.950383]
+Request ID: 03baf110
+Status: 200
+Duration: 0.022s
+
+Body:
+<EndDeviceList xmlns="urn:ieee:std:2030.5:ns" href="/edev" subscribable="0" all="1" results="1" pollRate="30">
+  <EndDevice href="/edev_10272" subscribable="0">
+    <ConfigurationLink href="/edev_10272_cfg"/>
+    <DERListLink href="/edev_10272_der" all="0"/>
+    <DeviceInformationLink href="/edev_10272_di"/>
+    <DeviceStatusLink href="/edev_10272_dstat"/>
+    <lFDI>910785b9cd08523b5dc2d85488f365385e84fd7d</lFDI>
+    <LogEventListLink href="/edev_10272_lel" all="0"/>
+    <PowerStatusLink href="/edev_10272_ps"/>
+    <sFDI>389310288927</sFDI>
+    <changedTime>1772228121</changedTime>
+    <enabled>true</enabled>
+    <FunctionSetAssignmentsListLink href="/edev_10272_fsa" all="1"/>
+    <postRate>3</postRate>
+    <RegistrationLink href="/edev_10272_rg"/>
+  </EndDevice>
+
+</EndDeviceList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-02-27T13:43:59.738769]
+Request ID: 1a4c93ea
+Method: GET
+Path: /dcap
+From: 192.168.92.130
+
+Body: (empty)
+
+RESPONSE [2026-02-27T13:43:59.745157]
+Request ID: 1a4c93ea
+Status: 200
+Duration: 0.009s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-02-27T13:43:59.853385]
+Request ID: 72c4d2c4
+Method: GET
+Path: /tm
+From: 192.168.92.130
+
+Body: (empty)
+
+RESPONSE [2026-02-27T13:43:59.857047]
+Request ID: 72c4d2c4
+Status: 200
+Duration: 0.007s
+
+Body:
+<Time xmlns="urn:ieee:std:2030.5:ns" pollRate="900">
+  <currentTime>1772228639</currentTime>
+  <dstEndTime>1793523600</dstEndTime>
+  <dstOffset>3600</dstOffset>
+  <localTime>1772199839</localTime>
+  <tzOffset>-28800</tzOffset>
+
+</Time>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-02-27T13:43:59.924401]
+Request ID: 3f697580
+Method: GET
+Path: /edev
+From: 192.168.92.130
+
+Body: (empty)
+
+RESPONSE [2026-02-27T13:43:59.930976]
+Request ID: 3f697580
+Status: 200
+Duration: 0.009s
+
+Body:
+<EndDeviceList xmlns="urn:ieee:std:2030.5:ns" href="/edev" subscribable="0" all="1" results="1" pollRate="30">
+  <EndDevice href="/edev_10272" subscribable="0">
+    <ConfigurationLink href="/edev_10272_cfg"/>
+    <DERListLink href="/edev_10272_der" all="0"/>
+    <DeviceInformationLink href="/edev_10272_di"/>
+    <DeviceStatusLink href="/edev_10272_dstat"/>
+    <lFDI>910785b9cd08523b5dc2d85488f365385e84fd7d</lFDI>
+    <LogEventListLink href="/edev_10272_lel" all="0"/>
+    <PowerStatusLink href="/edev_10272_ps"/>
+    <sFDI>389310288927</sFDI>
+    <changedTime>1772228121</changedTime>
+    <enabled>true</enabled>
+    <FunctionSetAssignmentsListLink href="/edev_10272_fsa" all="1"/>
+    <postRate>3</postRate>
+    <RegistrationLink href="/edev_10272_rg"/>
+  </EndDevice>
+
+</EndDeviceList>
+
+================================================================================
+
