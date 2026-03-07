@@ -151,7 +151,7 @@ programs:
       setESLowFreq: 5990    # f = 59.90 Hz, lower limit
       setESHighVolt: 26400  # Vnom = 264.00 V, upper limit specified by Enphase
       setESLowVolt: 21100   # Vnom = 211.00 V, lower limit
-      setESRandomDelay: 300  #***From Brown: some of the parameters might belong in DefaultDERControl instead of DERControlBase, but I put them here for now since they apply to all the controls and we can always move them later if needed.  The random delay is important to prevent a large number of devices from all reconnecting at the same time after an outage or fault clearance, which could cause grid instability.  A 5 minute random delay means that devices will reconnect randomly over a 5 minute window after the initial 5 minute ESDelay, which should help ensure a stable reconnection process.
+      setESRandomDelay: 300 #***From Brown: some of the parameters might belong in DefaultDERControl instead of DERControlBase, but I put them here for now since they apply to all the controls and we can always move them later if needed.  The random delay is important to prevent a large number of devices from all reconnecting at the same time after an outage or fault clearance, which could cause grid instability.  A 5 minute random delay means that devices will reconnect randomly over a 5 minute window after the initial 5 minute ESDelay, which should help ensure a stable reconnection process.
       setESRampTms: 60000   # t = 600.00 seconds, 10 minute ramp up after service delay expires (ESDelay)
       DERControlBase:
         opModConnect: true
