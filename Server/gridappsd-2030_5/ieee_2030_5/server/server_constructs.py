@@ -296,7 +296,7 @@ def initialize_2030_5(config: ServerConfiguration, tlsrepo: TLSRepository):
 
             # Pop off default_der_control if specified
             default_der_control = program_cfg.pop("DefaultDERControl", None)
-
+            breakpoint()
             program = m.DERProgram(**program_cfg)
             if not program.mRID:
                 program.mRID = adpt.get_global_mrids().new_mrid()
