@@ -1,9 +1,12 @@
-server: 192.168.92.130
+server: 192.168.92.131
 port: 8443
 service_name: IEEE_2030_5 #kinda optional ?
 
-proxy_hostname: 192.168.92.131:8443 # for the proxy (between server and client)
+proxy_hostname: 192.168.92.132:8443 # for the proxy (between server and client)
 proxy_enabled: True
+
+dual_server_enabled: true
+admin_http_port: 5002
 
 # TLS/Certificate configuration
 tls_repository: "~/tls"
@@ -46,7 +49,7 @@ poll_rate: 30
 cleanse_storage: false
 storage_path: data_store
 database_backend: sqlite
-database_path: /home/mess/.ieee_2030_5_data/custom_points.db
+database_path: /home/engine/.ieee_2030_5_data/custom_points.db
 
 # Enable debug logging
 debug_client_traffic: true
