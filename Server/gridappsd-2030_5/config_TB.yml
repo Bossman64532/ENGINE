@@ -219,9 +219,10 @@ programs:
   # or scheduled nightly disconnect (no sun)
   # -------------------------------------------------------
   - description: Microinverter Full Disconnect Control
-    DERControlBase:
-      opModConnect: false   # disconnected from grid
-      opModEnergize: false  # de-energized
+    DefaultDERControl:
+      DERControlBase:
+        opModConnect: false   # disconnected from grid
+        opModEnergize: false  # de-energized
 
   # -------------------------------------------------------
   # SOFT RECONNECT
