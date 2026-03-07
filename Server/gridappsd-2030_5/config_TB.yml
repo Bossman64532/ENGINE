@@ -144,67 +144,73 @@ programs:
       # -------------------------------------------------------        
     primacy: 89
     DefaultDERControl: 
-      setESDelay: 300
+      setESDelay: 300       # Wait 5 minutes to reconnect to the grid to ensure that its stable
       setGradW: 100         # 1% of rated capacity per second, taking 100 s to go from 0 to full output
+      setSoftGradW: 50      # Soft start ramp up for when the microinverter first reconnects after a delay
+      setESHighFreq: 6010   # f = 60.10 Hz, upper limit
+      setESLowFreq: 5990    # f = 59.90 Hz, lower limit
+      setESHighVolt: 26400  # Vnom = 264.00 V, upper limit specified by Enphase
+      setESLowVolt: 21100   # Vnom = 211.00 V, lower limit
+      setESRandomDelay: 300  #***From Brown: some of the parameters might belong in DefaultDERControl instead of DERControlBase, but I put them here for now since they apply to all the controls and we can always move them later if needed.  The random delay is important to prevent a large number of devices from all reconnecting at the same time after an outage or fault clearance, which could cause grid instability.  A 5 minute random delay means that devices will reconnect randomly over a 5 minute window after the initial 5 minute ESDelay, which should help ensure a stable reconnection process.
+      setESRampTms: 60000   # t = 600.00 seconds, 10 minute ramp up after service delay expires (ESDelay)
       DERControlBase:
         opModConnect: true
         opModEnergize: true
-        opModMaxLimW: 295
-        setESDelay: 300       # Wait 5 minutes to reconnect to the grid to ensure that its stable
-        setSoftGradW: 50      # Soft start ramp up for when the microinverter first reconnects after a delay
-        setESHighFreq: 6010   # f = 60.10 Hz, upper limit
-        setESLowFreq: 5990    # f = 59.90 Hz, lower limit
-        setESHighVolt: 26400  # Vnom = 264.00 V, upper limit specified by Enphase
-        setESLowVolt: 21100   # Vnom = 211.00 V, lower limit
-        setESRandomDelay: 300  #***From Brown: some of the parameters might belong in DefaultDERControl instead of DERControlBase, but I put them here for now since they apply to all the controls and we can always move them later if needed.  The random delay is important to prevent a large number of devices from all reconnecting at the same time after an outage or fault clearance, which could cause grid instability.  A 5 minute random delay means that devices will reconnect randomly over a 5 minute window after the initial 5 minute ESDelay, which should help ensure a stable reconnection process.
-        setESRampTms: 60000   # t = 600.00 seconds, 10 minute ramp up after service delay expires (ESDelay)
-
+        opModMaxLimW: 295      
+        
   # -------------------------------------------------------
   # PEAK SHAVING 75% - Light curtailment
   # Reduces Max Power Output by 25% (295 W -> 221 W)
   # -------------------------------------------------------
   - description: Microinverter Peak Shaving 75 pct Control
-    DERControlBase:
-      opModConnect: true
-      opModEnergize: true
-      opModMaxLimW: 221
+    DefaultDERControl:
       setGradW: 300         # 3% per second, 30s rampup, faster than normal startup since we want to respond to the grid faster
       setESRandomDelay: 120 # 2 minute spread, slightly smaller window
+      DERControlBase:
+        opModConnect: true
+        opModEnergize: true
+        opModMaxLimW: 221
+      
 
   # -------------------------------------------------------
   # PEAK SHAVING 50% - Medium curtailment
   # Reduces max power output by 50% (295 W -> 148 W)
   # -------------------------------------------------------
   - description: Microinverter Peak Shaving 50 pct Control
-    DERControlBase:
-      opModConnect: true
-      opModEnergize: true
-      opModMaxLimW: 148
+    DefaultDERControl:
       setGradW: 500         # 5% per second, 20s rampup, more severe grid conditions need faster response
       setESRandomDelay: 60  # 1 minute spread, even smaller window
-
+      DERControlBase:
+        opModConnect: true
+        opModEnergize: true
+        opModMaxLimW: 148
+       
   # -------------------------------------------------------
   # PEAK SHAVING 25% - High curtailment
   # Reduces max power output by 75% (295 W -> 74 W)
   # -------------------------------------------------------
   - description: Microinverter Peak Shaving 25 pct Control
-    DERControlBase:
-      opModConnect: true
-      opModEnergize: true
-      opModMaxLimW: 74
+    DefaultDERControl:
       setGradW: 1000        # 10% per second, 10s rampup, extreme grid conditions need fast response
       setESRandomDelay: 30  # 30 second spread, urgent scenario needs a quick response
+      DERControlBase:
+        opModConnect: true
+        opModEnergize: true
+        opModMaxLimW: 74
+        
 
   # -------------------------------------------------------
   # EMERGENCY CURTAIL - Near-full shutdown
   # Reduces max power output by 95% (295 W -> 15 W)
   # -------------------------------------------------------
   - description: Microinverter Emergency Curtail Control
-    DERControlBase:
-      opModConnect: true
-      opModEnergize: true
-      opModMaxLimW: 15
+    DefaultDERControl:
       setGradW: 10000       # 100% per second, near-instant response
+      DERControlBase:
+        opModConnect: true
+        opModEnergize: true
+        opModMaxLimW: 15
+        
       # No ESRandomDelay because we need an immediate response
 
   # -------------------------------------------------------
@@ -224,11 +230,8 @@ programs:
   # grid is stable on reconnection.
   # -------------------------------------------------------
   - description: Microinverter Soft Reconnect Control
-    setESDelay: 300
-    DERControlBase:
-      opModConnect: true
-      opModEnergize: true
-      opModMaxLimW: 295
+    DefaultDERControl:
+      setESDelay: 300
       setGradW: 5           # 0.05% per second ramp up, very slow
       setSoftGradW: 2       # 0.02% per second ramp up
       setESHighFreq: 6005   # f = 60.05 Hz, smaller upper limit to ensure grid is stable
@@ -237,6 +240,11 @@ programs:
       setESLowVolt: 22000   # Vnom = 220 V
       setESRandomDelay: 1200  # 20 min random reconnection spread
       setESRampTms: 120000    # 20 min ramp up to full power
+      DERControlBase:
+        opModConnect: true
+        opModEnergize: true
+        opModMaxLimW: 295
+        
 
 curves:
   # -------------------------------------------------------
