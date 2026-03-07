@@ -532,3 +532,2323 @@ Body:
 
 ================================================================================
 
+================================================================================
+REQUEST [2026-03-06T22:08:05.324235]
+Request ID: ea434b71
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:05.440018]
+Request ID: ea434b71
+Status: 200
+Duration: 0.115s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:06.547071]
+Request ID: 5e80ad70
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:06.576221]
+Request ID: 5e80ad70
+Status: 200
+Duration: 0.035s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:07.514879]
+Request ID: 8fd49a24
+Method: GET
+Path: /tm
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:08.114990]
+Request ID: 8fd49a24
+Status: 200
+Duration: 0.605s
+
+Body:
+<Time xmlns="urn:ieee:std:2030.5:ns" pollRate="900">
+  <currentTime>1772863687</currentTime>
+  <dstEndTime>1793523600</dstEndTime>
+  <dstOffset>3600</dstOffset>
+  <localTime>1772834888</localTime>
+  <tzOffset>-28800</tzOffset>
+
+</Time>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:09.134893]
+Request ID: 7d97eb20
+Method: GET
+Path: /edev
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:09.215345]
+Request ID: 7d97eb20
+Status: 200
+Duration: 0.076s
+
+Body:
+<EndDeviceList xmlns="urn:ieee:std:2030.5:ns" href="/edev" subscribable="0" all="1" results="1" pollRate="30">
+  <EndDevice href="/edev_38879" subscribable="0">
+    <ConfigurationLink href="/edev_38879_cfg"/>
+    <DERListLink href="/edev_38879_der" all="0"/>
+    <DeviceInformationLink href="/edev_38879_di"/>
+    <DeviceStatusLink href="/edev_38879_dstat"/>
+    <lFDI>d9f46fa420d9537bf503551ba6f239cecb37e5cf</lFDI>
+    <LogEventListLink href="/edev_38879_lel" all="0"/>
+    <PowerStatusLink href="/edev_38879_ps"/>
+    <sFDI>585068037783</sFDI>
+    <changedTime>1772863559</changedTime>
+    <enabled>true</enabled>
+    <FunctionSetAssignmentsListLink href="/edev_38879_fsa" all="1"/>
+    <postRate>3</postRate>
+    <RegistrationLink href="/edev_38879_rg"/>
+  </EndDevice>
+
+</EndDeviceList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:10.228341]
+Request ID: 54aeb63b
+Method: GET
+Path: /edev_38879_cfg
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:10.254417]
+Request ID: 54aeb63b
+Status: 200
+Duration: 0.032s
+
+Body:
+<Configuration xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_cfg" subscribable="0" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:11.173098]
+Request ID: d1013aea
+Method: GET
+Path: /edev_38879_di
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:11.208484]
+Request ID: d1013aea
+Status: 200
+Duration: 0.048s
+
+Body:
+<DeviceInformation xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_di" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:12.170160]
+Request ID: ed8c1d33
+Method: GET
+Path: /edev_38879_dstat
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:12.221960]
+Request ID: ed8c1d33
+Status: 200
+Duration: 0.039s
+
+Body:
+<DeviceStatus xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_dstat" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:13.160135]
+Request ID: a38ed8a8
+Method: GET
+Path: /edev_38879_ps
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:13.190006]
+Request ID: a38ed8a8
+Status: 200
+Duration: 0.043s
+
+Body:
+<PowerStatus xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_ps" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:14.141992]
+Request ID: 68ec4e08
+Method: GET
+Path: /edev_38879_rg
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:14.182425]
+Request ID: 68ec4e08
+Status: 200
+Duration: 0.042s
+
+Body:
+<Registration xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_rg" pollRate="3">
+  <dateTimeRegistered>1772863560</dateTimeRegistered>
+  <pIN>111115</pIN>
+
+</Registration>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:15.116430]
+Request ID: 34b99f24
+Method: GET
+Path: /edev_38879_fsa
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:15.154055]
+Request ID: 34b99f24
+Status: 200
+Duration: 0.039s
+
+Body:
+<FunctionSetAssignmentsList xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_fsa" subscribable="0" all="1" results="1" pollRate="30">
+  <FunctionSetAssignments href="/edev_38879_fsa_0" subscribable="1">
+    <DERProgramListLink href="/edev_38879_fsa_0_derp" all="1"/>
+    <mRID>d3fd8067ba904b9ea89db42042481006</mRID>
+    <description>device_fsa</description>
+  </FunctionSetAssignments>
+
+</FunctionSetAssignmentsList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:16.099152]
+Request ID: 211cc012
+Method: GET
+Path: /edev_38879_der
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:16.137374]
+Request ID: 211cc012
+Status: 200
+Duration: 0.050s
+
+Body:
+<DERList xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_der" all="1" results="1" pollRate="30">
+  <DER href="/der_38879_der_0" subscribable="0">
+    <CurrentDERProgramLink href="/edev_38879_fsa_0_derp_0"/>
+    <DERAvailabilityLink href="/der_38879_der_0_dera"/>
+    <DERCapabilityLink href="/der_38879_der_0_dercap"/>
+    <DERSettingsLink href="/der_38879_der_0_derg"/>
+    <DERStatusLink href="/der_38879_der_0_ders"/>
+  </DER>
+
+</DERList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:17.072972]
+Request ID: 9b78003f
+Method: GET
+Path: /derp
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:17.102423]
+Request ID: 9b78003f
+Status: 200
+Duration: 0.032s
+
+Body:
+<DERProgramList xmlns="urn:ieee:std:2030.5:ns" href="/derp" subscribable="0" all="8" results="1" pollRate="30">
+  <DERProgram href="/derp_0" subscribable="0">
+    <mRID>423d69a5d2be4ca2a6e172aed1403394</mRID>
+    <description>Default Program</description>
+    <primacy>89</primacy>
+  </DERProgram>
+
+</DERProgramList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:17.912023]
+Request ID: de8663c4
+Method: GET
+Path: /edev_38879_fsa_0_derp_0
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:17.945488]
+Request ID: de8663c4
+Status: 200
+Duration: 0.034s
+
+Body:
+<DERProgram xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_fsa_0_derp_0" subscribable="0">
+  <mRID>e7bafb84d7054860a7d8be684766b03b</mRID>
+  <description>Default Program</description>
+  <DefaultDERControlLink href="/edev_38879_fsa_0_derp_0_dderc"/>
+  <DERControlListLink href="/edev_38879_fsa_0_derp_0_derc" all="0"/>
+  <primacy>89</primacy>
+
+</DERProgram>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:18.891877]
+Request ID: 1b3465ed
+Method: GET
+Path: /edev_38879_fsa_0_derp_0_dderc
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:18.937405]
+Request ID: 1b3465ed
+Status: 200
+Duration: 0.045s
+
+Body:
+<DefaultDERControl xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_fsa_0_derp_0_dderc" subscribable="0">
+  <mRID>c0768ce6040046f6a99d94bf71443554</mRID>
+  <description>Default Program</description>
+  <DERControlBase>
+    <opModConnect>true</opModConnect>
+    <opModEnergize>true</opModEnergize>
+    <opModMaxLimW>295</opModMaxLimW>
+  </DERControlBase>
+
+</DefaultDERControl>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:19.887497]
+Request ID: 8beec070
+Method: GET
+Path: /edev_38879_fsa_0_derp_0_derc
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:19.922409]
+Request ID: 8beec070
+Status: 200
+Duration: 0.033s
+
+Body:
+<DERControlList xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_fsa_0_derp_0_derc" subscribable="0" all="0" results="0"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:20.829483]
+Request ID: 79b9ce22
+Method: GET
+Path: /dc
+From: 192.168.92.131
+
+Body: (empty)
+
+================================================================================
+REQUEST [2026-03-06T22:08:22.874250]
+Request ID: 53db68e9
+Method: GET
+Path: /mup
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:22.912090]
+Request ID: 53db68e9
+Status: 200
+Duration: 0.036s
+
+Body:
+<MirrorUsagePointList xmlns="urn:ieee:std:2030.5:ns" href="/mup" all="0" results="0" pollRate="30"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:23.868261]
+Request ID: b018e4f3
+Method: GET
+Path: /upt
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:23.897243]
+Request ID: b018e4f3
+Status: 200
+Duration: 0.039s
+
+Body:
+<UsagePointList xmlns="urn:ieee:std:2030.5:ns" href="/upt" subscribable="0" all="0" results="0" pollRate="30"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:24.833971]
+Request ID: d4603be0
+Method: GET
+Path: /edev_38879_lel
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:24.882264]
+Request ID: d4603be0
+Status: 500
+Duration: 0.058s
+
+Body:
+<!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>Internal server error: Type &#39;&lt;class &#39;dict&#39;&gt;&#39; is not a dataclass.</p>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:08:25.882081]
+Request ID: 58643bc4
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:08:25.914101]
+Request ID: 58643bc4
+Status: 200
+Duration: 0.038s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:09.514150]
+Request ID: 9661648b
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:09.573237]
+Request ID: 9661648b
+Status: 200
+Duration: 0.066s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:10.625190]
+Request ID: 4c87dfab
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:10.666249]
+Request ID: 4c87dfab
+Status: 200
+Duration: 0.037s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:11.653025]
+Request ID: 9927e450
+Method: GET
+Path: /tm
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:11.671127]
+Request ID: 9927e450
+Status: 200
+Duration: 0.026s
+
+Body:
+<Time xmlns="urn:ieee:std:2030.5:ns" pollRate="900">
+  <currentTime>1772864171</currentTime>
+  <dstEndTime>1793523600</dstEndTime>
+  <dstOffset>3600</dstOffset>
+  <localTime>1772835371</localTime>
+  <tzOffset>-28800</tzOffset>
+
+</Time>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:12.618315]
+Request ID: 4e3d0887
+Method: GET
+Path: /edev
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:12.674306]
+Request ID: 4e3d0887
+Status: 200
+Duration: 0.052s
+
+Body:
+<EndDeviceList xmlns="urn:ieee:std:2030.5:ns" href="/edev" subscribable="0" all="1" results="1" pollRate="30">
+  <EndDevice href="/edev_38879" subscribable="0">
+    <ConfigurationLink href="/edev_38879_cfg"/>
+    <DERListLink href="/edev_38879_der" all="0"/>
+    <DeviceInformationLink href="/edev_38879_di"/>
+    <DeviceStatusLink href="/edev_38879_dstat"/>
+    <lFDI>d9f46fa420d9537bf503551ba6f239cecb37e5cf</lFDI>
+    <LogEventListLink href="/edev_38879_lel" all="0"/>
+    <PowerStatusLink href="/edev_38879_ps"/>
+    <sFDI>585068037783</sFDI>
+    <changedTime>1772863559</changedTime>
+    <enabled>true</enabled>
+    <FunctionSetAssignmentsListLink href="/edev_38879_fsa" all="1"/>
+    <postRate>3</postRate>
+    <RegistrationLink href="/edev_38879_rg"/>
+  </EndDevice>
+
+</EndDeviceList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:13.687210]
+Request ID: 224c2693
+Method: GET
+Path: /edev_38879_cfg
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:13.713087]
+Request ID: 224c2693
+Status: 200
+Duration: 0.035s
+
+Body:
+<Configuration xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_cfg" subscribable="0" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:14.643446]
+Request ID: 3bffca96
+Method: GET
+Path: /edev_38879_di
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:14.667207]
+Request ID: 3bffca96
+Status: 200
+Duration: 0.033s
+
+Body:
+<DeviceInformation xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_di" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:15.654501]
+Request ID: 3f289bf8
+Method: GET
+Path: /edev_38879_dstat
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:15.687157]
+Request ID: 3f289bf8
+Status: 200
+Duration: 0.034s
+
+Body:
+<DeviceStatus xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_dstat" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:16.654392]
+Request ID: 46d4b46e
+Method: GET
+Path: /edev_38879_ps
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:16.682033]
+Request ID: 46d4b46e
+Status: 200
+Duration: 0.036s
+
+Body:
+<PowerStatus xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_ps" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:17.634483]
+Request ID: b09f2f27
+Method: GET
+Path: /edev_38879_rg
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:17.664960]
+Request ID: b09f2f27
+Status: 200
+Duration: 0.036s
+
+Body:
+<Registration xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_rg" pollRate="3">
+  <dateTimeRegistered>1772863560</dateTimeRegistered>
+  <pIN>111115</pIN>
+
+</Registration>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:18.634203]
+Request ID: 5bdd0a18
+Method: GET
+Path: /edev_38879_fsa
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:18.662277]
+Request ID: 5bdd0a18
+Status: 200
+Duration: 0.038s
+
+Body:
+<FunctionSetAssignmentsList xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_fsa" subscribable="0" all="1" results="1" pollRate="30">
+  <FunctionSetAssignments href="/edev_38879_fsa_0" subscribable="1">
+    <DERProgramListLink href="/edev_38879_fsa_0_derp" all="1"/>
+    <mRID>d3fd8067ba904b9ea89db42042481006</mRID>
+    <description>device_fsa</description>
+  </FunctionSetAssignments>
+
+</FunctionSetAssignmentsList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:19.576217]
+Request ID: 100b52c3
+Method: GET
+Path: /edev_38879_der
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:19.617117]
+Request ID: 100b52c3
+Status: 200
+Duration: 0.038s
+
+Body:
+<DERList xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_der" all="1" results="1" pollRate="30">
+  <DER href="/der_38879_der_0" subscribable="0">
+    <CurrentDERProgramLink href="/edev_38879_fsa_0_derp_0"/>
+    <DERAvailabilityLink href="/der_38879_der_0_dera"/>
+    <DERCapabilityLink href="/der_38879_der_0_dercap"/>
+    <DERSettingsLink href="/der_38879_der_0_derg"/>
+    <DERStatusLink href="/der_38879_der_0_ders"/>
+  </DER>
+
+</DERList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:20.609115]
+Request ID: 05511ee2
+Method: GET
+Path: /derp
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:20.646963]
+Request ID: 05511ee2
+Status: 200
+Duration: 0.035s
+
+Body:
+<DERProgramList xmlns="urn:ieee:std:2030.5:ns" href="/derp" subscribable="0" all="8" results="1" pollRate="30">
+  <DERProgram href="/derp_0" subscribable="0">
+    <mRID>423d69a5d2be4ca2a6e172aed1403394</mRID>
+    <description>Default Program</description>
+    <primacy>89</primacy>
+  </DERProgram>
+
+</DERProgramList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:21.616979]
+Request ID: 4bfed706
+Method: GET
+Path: /edev_38879_fsa_0_derp_0
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:21.661548]
+Request ID: 4bfed706
+Status: 200
+Duration: 0.042s
+
+Body:
+<DERProgram xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_fsa_0_derp_0" subscribable="0">
+  <mRID>e7bafb84d7054860a7d8be684766b03b</mRID>
+  <description>Default Program</description>
+  <DefaultDERControlLink href="/edev_38879_fsa_0_derp_0_dderc"/>
+  <DERControlListLink href="/edev_38879_fsa_0_derp_0_derc" all="0"/>
+  <primacy>89</primacy>
+
+</DERProgram>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:22.626350]
+Request ID: 39773d59
+Method: GET
+Path: /edev_38879_fsa_0_derp_0_dderc
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:22.661343]
+Request ID: 39773d59
+Status: 200
+Duration: 0.034s
+
+Body:
+<DefaultDERControl xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_fsa_0_derp_0_dderc" subscribable="0">
+  <mRID>c0768ce6040046f6a99d94bf71443554</mRID>
+  <description>Default Program</description>
+  <DERControlBase>
+    <opModConnect>true</opModConnect>
+    <opModEnergize>true</opModEnergize>
+    <opModMaxLimW>295</opModMaxLimW>
+  </DERControlBase>
+
+</DefaultDERControl>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:23.854321]
+Request ID: c85ed391
+Method: GET
+Path: /edev_38879_fsa_0_derp_0_derc
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:23.893047]
+Request ID: c85ed391
+Status: 200
+Duration: 0.059s
+
+Body:
+<DERControlList xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_fsa_0_derp_0_derc" subscribable="0" all="0" results="0"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:24.930357]
+Request ID: e116bc6b
+Method: GET
+Path: /dc
+From: 192.168.92.131
+
+Body: (empty)
+
+================================================================================
+REQUEST [2026-03-06T22:16:26.145263]
+Request ID: 840c937e
+Method: GET
+Path: /mup
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:26.172123]
+Request ID: 840c937e
+Status: 200
+Duration: 0.039s
+
+Body:
+<MirrorUsagePointList xmlns="urn:ieee:std:2030.5:ns" href="/mup" all="0" results="0" pollRate="30"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:27.110124]
+Request ID: 655f74b7
+Method: GET
+Path: /upt
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:27.139141]
+Request ID: 655f74b7
+Status: 200
+Duration: 0.027s
+
+Body:
+<UsagePointList xmlns="urn:ieee:std:2030.5:ns" href="/upt" subscribable="0" all="0" results="0" pollRate="30"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:28.056137]
+Request ID: d20ee950
+Method: GET
+Path: /edev_38879_lel
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:28.094260]
+Request ID: d20ee950
+Status: 500
+Duration: 0.032s
+
+Body:
+<!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>Internal server error: Type &#39;&lt;class &#39;dict&#39;&gt;&#39; is not a dataclass.</p>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:29.182237]
+Request ID: b8f847b0
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:29.214263]
+Request ID: b8f847b0
+Status: 200
+Duration: 0.036s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:30.146477]
+Request ID: 485d7a5f
+Method: GET
+Path: /tm
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:30.172022]
+Request ID: 485d7a5f
+Status: 200
+Duration: 0.022s
+
+Body:
+<Time xmlns="urn:ieee:std:2030.5:ns" pollRate="900">
+  <currentTime>1772864190</currentTime>
+  <dstEndTime>1793523600</dstEndTime>
+  <dstOffset>3600</dstOffset>
+  <localTime>1772835390</localTime>
+  <tzOffset>-28800</tzOffset>
+
+</Time>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:31.129070]
+Request ID: 8910b23d
+Method: GET
+Path: /edev_38879_ps
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:31.155195]
+Request ID: 8910b23d
+Status: 200
+Duration: 0.034s
+
+Body:
+<PowerStatus xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_ps" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:16:35.217204]
+Request ID: e4aba3e2
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:16:35.243130]
+Request ID: e4aba3e2
+Status: 200
+Duration: 0.041s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:19:44.644276]
+Request ID: ba880556
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:19:44.677110]
+Request ID: ba880556
+Status: 200
+Duration: 0.031s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:19:45.667290]
+Request ID: 0cdbdd52
+Method: GET
+Path: /tm
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:19:45.687411]
+Request ID: 0cdbdd52
+Status: 200
+Duration: 0.023s
+
+Body:
+<Time xmlns="urn:ieee:std:2030.5:ns" pollRate="900">
+  <currentTime>1772864385</currentTime>
+  <dstEndTime>1793523600</dstEndTime>
+  <dstOffset>3600</dstOffset>
+  <localTime>1772835585</localTime>
+  <tzOffset>-28800</tzOffset>
+
+</Time>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:19:46.596008]
+Request ID: 25ae8feb
+Method: GET
+Path: /edev
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:19:46.616970]
+Request ID: 25ae8feb
+Status: 200
+Duration: 0.019s
+
+Body:
+<EndDeviceList xmlns="urn:ieee:std:2030.5:ns" href="/edev" subscribable="0" all="1" results="1" pollRate="30">
+  <EndDevice href="/edev_38879" subscribable="0">
+    <ConfigurationLink href="/edev_38879_cfg"/>
+    <DERListLink href="/edev_38879_der" all="0"/>
+    <DeviceInformationLink href="/edev_38879_di"/>
+    <DeviceStatusLink href="/edev_38879_dstat"/>
+    <lFDI>d9f46fa420d9537bf503551ba6f239cecb37e5cf</lFDI>
+    <LogEventListLink href="/edev_38879_lel" all="0"/>
+    <PowerStatusLink href="/edev_38879_ps"/>
+    <sFDI>585068037783</sFDI>
+    <changedTime>1772863559</changedTime>
+    <enabled>true</enabled>
+    <FunctionSetAssignmentsListLink href="/edev_38879_fsa" all="1"/>
+    <postRate>3</postRate>
+    <RegistrationLink href="/edev_38879_rg"/>
+  </EndDevice>
+
+</EndDeviceList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:19:59.223480]
+Request ID: 6d5ab095
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:19:59.270057]
+Request ID: 6d5ab095
+Status: 200
+Duration: 0.050s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:20:00.293177]
+Request ID: e2157c05
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:20:00.315781]
+Request ID: e2157c05
+Status: 200
+Duration: 0.028s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:20:01.247216]
+Request ID: 78b9a01d
+Method: GET
+Path: /tm
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:20:01.267985]
+Request ID: 78b9a01d
+Status: 200
+Duration: 0.020s
+
+Body:
+<Time xmlns="urn:ieee:std:2030.5:ns" pollRate="900">
+  <currentTime>1772864401</currentTime>
+  <dstEndTime>1793523600</dstEndTime>
+  <dstOffset>3600</dstOffset>
+  <localTime>1772835601</localTime>
+  <tzOffset>-28800</tzOffset>
+
+</Time>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:20:02.187296]
+Request ID: fc418fd9
+Method: GET
+Path: /edev
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:20:02.216122]
+Request ID: fc418fd9
+Status: 200
+Duration: 0.034s
+
+Body:
+<EndDeviceList xmlns="urn:ieee:std:2030.5:ns" href="/edev" subscribable="0" all="1" results="1" pollRate="30">
+  <EndDevice href="/edev_38879" subscribable="0">
+    <ConfigurationLink href="/edev_38879_cfg"/>
+    <DERListLink href="/edev_38879_der" all="0"/>
+    <DeviceInformationLink href="/edev_38879_di"/>
+    <DeviceStatusLink href="/edev_38879_dstat"/>
+    <lFDI>d9f46fa420d9537bf503551ba6f239cecb37e5cf</lFDI>
+    <LogEventListLink href="/edev_38879_lel" all="0"/>
+    <PowerStatusLink href="/edev_38879_ps"/>
+    <sFDI>585068037783</sFDI>
+    <changedTime>1772863559</changedTime>
+    <enabled>true</enabled>
+    <FunctionSetAssignmentsListLink href="/edev_38879_fsa" all="1"/>
+    <postRate>3</postRate>
+    <RegistrationLink href="/edev_38879_rg"/>
+  </EndDevice>
+
+</EndDeviceList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:20:03.216143]
+Request ID: 196956a0
+Method: GET
+Path: /edev_38879_cfg
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:20:03.249109]
+Request ID: 196956a0
+Status: 200
+Duration: 0.036s
+
+Body:
+<Configuration xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_cfg" subscribable="0" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:20:04.210028]
+Request ID: ab13d17e
+Method: GET
+Path: /edev_38879_di
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:20:04.234041]
+Request ID: ab13d17e
+Status: 200
+Duration: 0.034s
+
+Body:
+<DeviceInformation xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_di" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:20:05.182204]
+Request ID: 79c8d4ef
+Method: GET
+Path: /edev_38879_dstat
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:20:05.210176]
+Request ID: 79c8d4ef
+Status: 200
+Duration: 0.028s
+
+Body:
+<DeviceStatus xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_dstat" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:20:06.164244]
+Request ID: 3bf5ffff
+Method: GET
+Path: /edev_38879_ps
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:20:06.197157]
+Request ID: 3bf5ffff
+Status: 200
+Duration: 0.036s
+
+Body:
+<PowerStatus xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_ps" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:20:07.161126]
+Request ID: 6ee0bede
+Method: GET
+Path: /edev_38879_rg
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:20:07.184337]
+Request ID: 6ee0bede
+Status: 200
+Duration: 0.028s
+
+Body:
+<Registration xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_rg" pollRate="3">
+  <dateTimeRegistered>1772863560</dateTimeRegistered>
+  <pIN>111115</pIN>
+
+</Registration>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:20:08.130123]
+Request ID: 97aa7d7f
+Method: GET
+Path: /edev_38879_fsa
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:20:08.167236]
+Request ID: 97aa7d7f
+Status: 200
+Duration: 0.038s
+
+Body:
+<FunctionSetAssignmentsList xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_fsa" subscribable="0" all="1" results="1" pollRate="30">
+  <FunctionSetAssignments href="/edev_38879_fsa_0" subscribable="1">
+    <DERProgramListLink href="/edev_38879_fsa_0_derp" all="1"/>
+    <mRID>d3fd8067ba904b9ea89db42042481006</mRID>
+    <description>device_fsa</description>
+  </FunctionSetAssignments>
+
+</FunctionSetAssignmentsList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:20:09.141177]
+Request ID: fa6b85d4
+Method: GET
+Path: /edev_38879_der
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:20:09.174450]
+Request ID: fa6b85d4
+Status: 200
+Duration: 0.036s
+
+Body:
+<DERList xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_der" all="1" results="1" pollRate="30">
+  <DER href="/der_38879_der_0" subscribable="0">
+    <CurrentDERProgramLink href="/edev_38879_fsa_0_derp_0"/>
+    <DERAvailabilityLink href="/der_38879_der_0_dera"/>
+    <DERCapabilityLink href="/der_38879_der_0_dercap"/>
+    <DERSettingsLink href="/der_38879_der_0_derg"/>
+    <DERStatusLink href="/der_38879_der_0_ders"/>
+  </DER>
+
+</DERList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:20:10.168384]
+Request ID: 0891cd28
+Method: GET
+Path: /derp
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:20:10.201353]
+Request ID: 0891cd28
+Status: 200
+Duration: 0.037s
+
+Body:
+<DERProgramList xmlns="urn:ieee:std:2030.5:ns" href="/derp" subscribable="0" all="8" results="1" pollRate="30">
+  <DERProgram href="/derp_0" subscribable="0">
+    <mRID>423d69a5d2be4ca2a6e172aed1403394</mRID>
+    <description>Default Program</description>
+    <primacy>89</primacy>
+  </DERProgram>
+
+</DERProgramList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:20:11.140012]
+Request ID: 1245b4c1
+Method: GET
+Path: /edev_38879_fsa_0_derp_0
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:20:11.167450]
+Request ID: 1245b4c1
+Status: 200
+Duration: 0.039s
+
+Body:
+<DERProgram xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_fsa_0_derp_0" subscribable="0">
+  <mRID>e7bafb84d7054860a7d8be684766b03b</mRID>
+  <description>Default Program</description>
+  <DefaultDERControlLink href="/edev_38879_fsa_0_derp_0_dderc"/>
+  <DERControlListLink href="/edev_38879_fsa_0_derp_0_derc" all="0"/>
+  <primacy>89</primacy>
+
+</DERProgram>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:20:12.136485]
+Request ID: a19c00f9
+Method: GET
+Path: /edev_38879_fsa_0_derp_0_dderc
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:20:12.163034]
+Request ID: a19c00f9
+Status: 200
+Duration: 0.044s
+
+Body:
+<DefaultDERControl xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_fsa_0_derp_0_dderc" subscribable="0">
+  <mRID>c0768ce6040046f6a99d94bf71443554</mRID>
+  <description>Default Program</description>
+  <DERControlBase>
+    <opModConnect>true</opModConnect>
+    <opModEnergize>true</opModEnergize>
+    <opModMaxLimW>295</opModMaxLimW>
+  </DERControlBase>
+
+</DefaultDERControl>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:20:13.125379]
+Request ID: a8fcc30f
+Method: GET
+Path: /edev_38879_fsa_0_derp_0_derc
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:20:13.168325]
+Request ID: a8fcc30f
+Status: 200
+Duration: 0.043s
+
+Body:
+<DERControlList xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_fsa_0_derp_0_derc" subscribable="0" all="0" results="0"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:20:14.132117]
+Request ID: 8bcf979d
+Method: GET
+Path: /dc
+From: 192.168.92.131
+
+Body: (empty)
+
+================================================================================
+REQUEST [2026-03-06T22:20:15.355268]
+Request ID: e2827dfe
+Method: GET
+Path: /mup
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:20:15.383024]
+Request ID: e2827dfe
+Status: 200
+Duration: 0.032s
+
+Body:
+<MirrorUsagePointList xmlns="urn:ieee:std:2030.5:ns" href="/mup" all="0" results="0" pollRate="30"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:23:17.785767]
+Request ID: 4e5f3dbf
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:23:17.812910]
+Request ID: 4e5f3dbf
+Status: 200
+Duration: 0.032s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:23:18.724356]
+Request ID: 392cd81b
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:23:18.758478]
+Request ID: 392cd81b
+Status: 200
+Duration: 0.040s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:23:19.675174]
+Request ID: 263120f4
+Method: GET
+Path: /tm
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:23:19.690407]
+Request ID: 263120f4
+Status: 200
+Duration: 0.025s
+
+Body:
+<Time xmlns="urn:ieee:std:2030.5:ns" pollRate="900">
+  <currentTime>1772864599</currentTime>
+  <dstEndTime>1793523600</dstEndTime>
+  <dstOffset>3600</dstOffset>
+  <localTime>1772835799</localTime>
+  <tzOffset>-28800</tzOffset>
+
+</Time>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:24:54.116916]
+Request ID: fb967955
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:24:54.146398]
+Request ID: fb967955
+Status: 200
+Duration: 0.036s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:24:55.215977]
+Request ID: b6ab5e6e
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:24:55.244341]
+Request ID: b6ab5e6e
+Status: 200
+Duration: 0.033s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:24:56.242253]
+Request ID: c7768e5c
+Method: GET
+Path: /tm
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:24:56.255436]
+Request ID: c7768e5c
+Status: 200
+Duration: 0.021s
+
+Body:
+<Time xmlns="urn:ieee:std:2030.5:ns" pollRate="900">
+  <currentTime>1772864696</currentTime>
+  <dstEndTime>1793523600</dstEndTime>
+  <dstOffset>3600</dstOffset>
+  <localTime>1772835896</localTime>
+  <tzOffset>-28800</tzOffset>
+
+</Time>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:24:57.172999]
+Request ID: 781b6324
+Method: GET
+Path: /edev
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:24:57.207391]
+Request ID: 781b6324
+Status: 200
+Duration: 0.040s
+
+Body:
+<EndDeviceList xmlns="urn:ieee:std:2030.5:ns" href="/edev" subscribable="0" all="1" results="1" pollRate="30">
+  <EndDevice href="/edev_38879" subscribable="0">
+    <ConfigurationLink href="/edev_38879_cfg"/>
+    <DERListLink href="/edev_38879_der" all="0"/>
+    <DeviceInformationLink href="/edev_38879_di"/>
+    <DeviceStatusLink href="/edev_38879_dstat"/>
+    <lFDI>d9f46fa420d9537bf503551ba6f239cecb37e5cf</lFDI>
+    <LogEventListLink href="/edev_38879_lel" all="0"/>
+    <PowerStatusLink href="/edev_38879_ps"/>
+    <sFDI>585068037783</sFDI>
+    <changedTime>1772863559</changedTime>
+    <enabled>true</enabled>
+    <FunctionSetAssignmentsListLink href="/edev_38879_fsa" all="1"/>
+    <postRate>3</postRate>
+    <RegistrationLink href="/edev_38879_rg"/>
+  </EndDevice>
+
+</EndDeviceList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:24:58.211498]
+Request ID: 9294717b
+Method: GET
+Path: /edev_38879_cfg
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:24:58.233978]
+Request ID: 9294717b
+Status: 200
+Duration: 0.026s
+
+Body:
+<Configuration xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_cfg" subscribable="0" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:24:59.181040]
+Request ID: c8a98fdd
+Method: GET
+Path: /edev_38879_di
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:24:59.213267]
+Request ID: c8a98fdd
+Status: 200
+Duration: 0.038s
+
+Body:
+<DeviceInformation xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_di" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:00.199406]
+Request ID: a6699319
+Method: GET
+Path: /edev_38879_dstat
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:00.226384]
+Request ID: a6699319
+Status: 200
+Duration: 0.035s
+
+Body:
+<DeviceStatus xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_dstat" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:01.086288]
+Request ID: eae23b8e
+Method: GET
+Path: /edev_38879_ps
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:01.119474]
+Request ID: eae23b8e
+Status: 200
+Duration: 0.036s
+
+Body:
+<PowerStatus xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_ps" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:02.056170]
+Request ID: 48e7a3f9
+Method: GET
+Path: /edev_38879_rg
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:02.079400]
+Request ID: 48e7a3f9
+Status: 200
+Duration: 0.028s
+
+Body:
+<Registration xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_rg" pollRate="3">
+  <dateTimeRegistered>1772863560</dateTimeRegistered>
+  <pIN>111115</pIN>
+
+</Registration>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:02.993321]
+Request ID: 50ac5595
+Method: GET
+Path: /edev_38879_fsa
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:03.035378]
+Request ID: 50ac5595
+Status: 200
+Duration: 0.037s
+
+Body:
+<FunctionSetAssignmentsList xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_fsa" subscribable="0" all="1" results="1" pollRate="30">
+  <FunctionSetAssignments href="/edev_38879_fsa_0" subscribable="1">
+    <DERProgramListLink href="/edev_38879_fsa_0_derp" all="1"/>
+    <mRID>d3fd8067ba904b9ea89db42042481006</mRID>
+    <description>device_fsa</description>
+  </FunctionSetAssignments>
+
+</FunctionSetAssignmentsList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:04.008446]
+Request ID: 6ae9b68f
+Method: GET
+Path: /edev_38879_der
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:04.044365]
+Request ID: 6ae9b68f
+Status: 200
+Duration: 0.040s
+
+Body:
+<DERList xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_der" all="1" results="1" pollRate="30">
+  <DER href="/der_38879_der_0" subscribable="0">
+    <CurrentDERProgramLink href="/edev_38879_fsa_0_derp_0"/>
+    <DERAvailabilityLink href="/der_38879_der_0_dera"/>
+    <DERCapabilityLink href="/der_38879_der_0_dercap"/>
+    <DERSettingsLink href="/der_38879_der_0_derg"/>
+    <DERStatusLink href="/der_38879_der_0_ders"/>
+  </DER>
+
+</DERList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:05.010224]
+Request ID: 52c4a018
+Method: GET
+Path: /derp
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:05.038222]
+Request ID: 52c4a018
+Status: 200
+Duration: 0.032s
+
+Body:
+<DERProgramList xmlns="urn:ieee:std:2030.5:ns" href="/derp" subscribable="0" all="8" results="1" pollRate="30">
+  <DERProgram href="/derp_0" subscribable="0">
+    <mRID>423d69a5d2be4ca2a6e172aed1403394</mRID>
+    <description>Default Program</description>
+    <primacy>89</primacy>
+  </DERProgram>
+
+</DERProgramList>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:06.067137]
+Request ID: 83a19084
+Method: GET
+Path: /edev_38879_fsa_0_derp_0
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:06.103202]
+Request ID: 83a19084
+Status: 200
+Duration: 0.039s
+
+Body:
+<DERProgram xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_fsa_0_derp_0" subscribable="0">
+  <mRID>e7bafb84d7054860a7d8be684766b03b</mRID>
+  <description>Default Program</description>
+  <DefaultDERControlLink href="/edev_38879_fsa_0_derp_0_dderc"/>
+  <DERControlListLink href="/edev_38879_fsa_0_derp_0_derc" all="0"/>
+  <primacy>89</primacy>
+
+</DERProgram>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:07.070554]
+Request ID: ce3b6b18
+Method: GET
+Path: /edev_38879_fsa_0_derp_0_dderc
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:07.099195]
+Request ID: ce3b6b18
+Status: 200
+Duration: 0.037s
+
+Body:
+<DefaultDERControl xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_fsa_0_derp_0_dderc" subscribable="0">
+  <mRID>c0768ce6040046f6a99d94bf71443554</mRID>
+  <description>Default Program</description>
+  <DERControlBase>
+    <opModConnect>true</opModConnect>
+    <opModEnergize>true</opModEnergize>
+    <opModMaxLimW>295</opModMaxLimW>
+  </DERControlBase>
+
+</DefaultDERControl>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:08.064941]
+Request ID: 98043e5b
+Method: GET
+Path: /edev_38879_fsa_0_derp_0_derc
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:08.131492]
+Request ID: 98043e5b
+Status: 200
+Duration: 0.053s
+
+Body:
+<DERControlList xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_fsa_0_derp_0_derc" subscribable="0" all="0" results="0"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:09.123256]
+Request ID: 57ea2a46
+Method: GET
+Path: /dc
+From: 192.168.92.131
+
+Body: (empty)
+
+================================================================================
+REQUEST [2026-03-06T22:25:10.302978]
+Request ID: 81a28c4e
+Method: GET
+Path: /mup
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:10.357505]
+Request ID: 81a28c4e
+Status: 200
+Duration: 0.039s
+
+Body:
+<MirrorUsagePointList xmlns="urn:ieee:std:2030.5:ns" href="/mup" all="0" results="0" pollRate="30"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:11.233126]
+Request ID: 3a63e3e5
+Method: GET
+Path: /upt
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:11.260504]
+Request ID: 3a63e3e5
+Status: 200
+Duration: 0.029s
+
+Body:
+<UsagePointList xmlns="urn:ieee:std:2030.5:ns" href="/upt" subscribable="0" all="0" results="0" pollRate="30"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:12.173207]
+Request ID: 2fbb8efe
+Method: GET
+Path: /edev_38879_lel
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:12.215022]
+Request ID: 2fbb8efe
+Status: 500
+Duration: 0.045s
+
+Body:
+<!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>Internal server error: Type &#39;&lt;class &#39;dict&#39;&gt;&#39; is not a dataclass.</p>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:13.205502]
+Request ID: 71eb5ecd
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:13.231340]
+Request ID: 71eb5ecd
+Status: 200
+Duration: 0.033s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:14.142197]
+Request ID: 9da1c8e9
+Method: GET
+Path: /tm
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:14.160366]
+Request ID: 9da1c8e9
+Status: 200
+Duration: 0.022s
+
+Body:
+<Time xmlns="urn:ieee:std:2030.5:ns" pollRate="900">
+  <currentTime>1772864714</currentTime>
+  <dstEndTime>1793523600</dstEndTime>
+  <dstOffset>3600</dstOffset>
+  <localTime>1772835914</localTime>
+  <tzOffset>-28800</tzOffset>
+
+</Time>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:15.110313]
+Request ID: 0254d002
+Method: GET
+Path: /edev_38879_ps
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:15.135309]
+Request ID: 0254d002
+Status: 200
+Duration: 0.032s
+
+Body:
+<PowerStatus xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_ps" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:19.098065]
+Request ID: 207ef971
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:19.125489]
+Request ID: 207ef971
+Status: 200
+Duration: 0.036s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:20.049351]
+Request ID: 29cba039
+Method: GET
+Path: /tm
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:20.073148]
+Request ID: 29cba039
+Status: 200
+Duration: 0.028s
+
+Body:
+<Time xmlns="urn:ieee:std:2030.5:ns" pollRate="900">
+  <currentTime>1772864720</currentTime>
+  <dstEndTime>1793523600</dstEndTime>
+  <dstOffset>3600</dstOffset>
+  <localTime>1772835920</localTime>
+  <tzOffset>-28800</tzOffset>
+
+</Time>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:20.998409]
+Request ID: 0945c014
+Method: GET
+Path: /edev_38879_ps
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:21.030807]
+Request ID: 0945c014
+Status: 200
+Duration: 0.043s
+
+Body:
+<PowerStatus xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_ps" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:25.076187]
+Request ID: 592c7192
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:25.108395]
+Request ID: 592c7192
+Status: 200
+Duration: 0.042s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:26.090278]
+Request ID: ab11baf3
+Method: GET
+Path: /tm
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:26.107980]
+Request ID: ab11baf3
+Status: 200
+Duration: 0.024s
+
+Body:
+<Time xmlns="urn:ieee:std:2030.5:ns" pollRate="900">
+  <currentTime>1772864726</currentTime>
+  <dstEndTime>1793523600</dstEndTime>
+  <dstOffset>3600</dstOffset>
+  <localTime>1772835926</localTime>
+  <tzOffset>-28800</tzOffset>
+
+</Time>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:27.084911]
+Request ID: 39a05795
+Method: GET
+Path: /edev_38879_ps
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:27.116016]
+Request ID: 39a05795
+Status: 200
+Duration: 0.035s
+
+Body:
+<PowerStatus xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_ps" pollRate="900"/>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:25:30.993209]
+Request ID: 824fb656
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:25:31.018323]
+Request ID: 824fb656
+Status: 200
+Duration: 0.032s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:30:35.065209]
+Request ID: 50a38794
+Method: GET
+Path: /dcap
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:30:35.110464]
+Request ID: 50a38794
+Status: 200
+Duration: 0.050s
+
+Body:
+<DeviceCapability xmlns="urn:ieee:std:2030.5:ns" href="/dcap" pollRate="30">
+  <DERProgramListLink href="/derp" all="0"/>
+  <TimeLink href="/tm"/>
+  <UsagePointListLink href="/upt" all="0"/>
+  <EndDeviceListLink href="/edev" all="1"/>
+  <MirrorUsagePointListLink href="/mup" all="0"/>
+  <SelfDeviceLink href="/sdev"/>
+
+</DeviceCapability>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:30:35.997371]
+Request ID: 2893a03a
+Method: GET
+Path: /tm
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:30:36.015461]
+Request ID: 2893a03a
+Status: 200
+Duration: 0.024s
+
+Body:
+<Time xmlns="urn:ieee:std:2030.5:ns" pollRate="900">
+  <currentTime>1772865035</currentTime>
+  <dstEndTime>1793523600</dstEndTime>
+  <dstOffset>3600</dstOffset>
+  <localTime>1772836236</localTime>
+  <tzOffset>-28800</tzOffset>
+
+</Time>
+
+================================================================================
+
+================================================================================
+REQUEST [2026-03-06T22:30:36.929365]
+Request ID: bddd740e
+Method: GET
+Path: /edev_38879_ps
+From: 192.168.92.131
+
+Body: (empty)
+
+RESPONSE [2026-03-06T22:30:36.957162]
+Request ID: bddd740e
+Status: 200
+Duration: 0.032s
+
+Body:
+<PowerStatus xmlns="urn:ieee:std:2030.5:ns" href="/edev_38879_ps" pollRate="900"/>
+
+================================================================================
+

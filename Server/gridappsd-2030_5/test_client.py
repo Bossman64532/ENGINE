@@ -4,9 +4,9 @@ from ieee_2030_5.client.client import IEEE2030_5_Client
 
 
 # Certificate paths
-CA   = "/home/mess/tls/certs/ca.crt"
-CERT = "/home/mess/tls/certs/04.pem"        # dev1 certificate
-KEY  = "/home/mess/tls/private/enphase1.pem"   # dev1 private key
+CA   = "/home/engine/tls/certs/ca.crt"
+CERT = "/home/engine/tls/certs/dev1.crt"        # dev1 certificate
+KEY  = "/home/engine/tls/private/dev1.pem"   # dev1 private key
 
 # Create client
 client = IEEE2030_5_Client(
