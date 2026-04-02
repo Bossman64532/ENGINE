@@ -296,6 +296,9 @@ def initialize_2030_5(config: ServerConfiguration, tlsrepo: TLSRepository):
 
             # Pop off default_der_control if specified
             default_der_control = program_cfg.pop("DefaultDERControl", None)
+            program_cfg.pop("default_control", None)
+            program_cfg.pop("controls", None)
+            program_cfg.pop("curves", None)
 
             program = m.DERProgram(**program_cfg)
             if not program.mRID:
@@ -418,6 +421,7 @@ def initialize_2030_5(config: ServerConfiguration, tlsrepo: TLSRepository):
                 existing_device.postRate = cfg_device.post_rate
 
                 # Link existing device to default FSA if available
+                default_fsa = None
                 if default_fsa:
                     ed_href = hrefs.EndDeviceHref(device_index)
                     # Initialize FSA list if needed

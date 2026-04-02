@@ -57,7 +57,7 @@ class IEEE2030_5_Client:
         # client side validation.
         self._ssl_context.load_cert_chain(certfile=certfile, keyfile=keyfile)
 
-        self._http_conn = HTTPSConnection(host=server_hostname, port=server_ssl_port, context=self._ssl_context)
+        self._http_conn = HTTPSConnection(host=server_hostname, port=server_ssl_port, context=self._ssl_context, timeout=10)
         self._device_cap: m.DeviceCapability | None = None
         self._mup: m.MirrorUsagePointList | None = None
         self._upt: m.UsagePointList | None = None
@@ -231,10 +231,17 @@ class IEEE2030_5_Client:
         if self._debug:
             print("----> GET REQUEST")
             print(f"url: {url} body: {body}")
-        self.http_conn.request(method="GET", url=url, body=body, headers=headers)
-        response = self._http_conn.getresponse()
+        try:
+            self.http_conn.request(method="GET", url=url, body=body, headers=headers)
+            response = self._http_conn.getresponse()
+        except Exception:
+            self._http_conn.close()
+            self._http_conn = type(self._http_conn)(host=self._http_conn.host, port=self._http_conn.port, context=self._ssl_context, timeout=10)
+            self.http_conn.request(method="GET", url=url, body=body, headers=headers)
+            response = self._http_conn.getresponse()
         response_data = response.read().decode("utf-8")
-        print(response.headers)
+        if self._debug:
+            print(response.headers)
 
         response_obj = None
         try:

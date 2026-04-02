@@ -932,7 +932,119 @@ def __build_app__(config: ServerConfiguration, tlsrepo: TLSRepository) -> Flask:
 
     ServerEndpoints(app, tls_repo=tlsrepo, config=config)
     AdminEndpoints(app, tls_repo=tlsrepo, config=config)
+    
+    # ---- DR Event Endpoints ----
+    dr_events = {}
+    dr_status = {}
 
+    @app.route("/derms/events", methods=["POST"])
+    def derms_create_event():
+        import uuid, time
+        import xml.etree.ElementTree as ET
+
+        data = request.get_data(as_text=True)
+        if not data:
+            return Response("Bad Request", status=400)
+
+        try:
+            # Parse XML
+            ns = {"sep": "urn:ieee:std:2030.5:ns"}
+            root = ET.fromstring(data)
+
+            def find_text(tag):
+                el = root.find(f"sep:{tag}", ns)
+                return el.text if el is not None else None
+
+            # Extract fields
+            mrid = find_text("mRID") or str(uuid.uuid4())
+            description = find_text("description")
+
+            interval = root.find("sep:interval", ns)
+            start = int(interval.find("sep:start", ns).text) if interval is not None else int(time.time())
+            duration = int(interval.find("sep:duration", ns).text) if interval is not None else 3600
+
+            control_base = root.find("sep:DERControlBase", ns)
+            max_lim_w = None
+            op_mod_connect = None
+            if control_base is not None:
+                w_el = control_base.find("sep:opModMaxLimW", ns)
+                max_lim_w = int(w_el.text) if w_el is not None else None
+                c_el = control_base.find("sep:opModConnect", ns)
+                op_mod_connect = c_el.text if c_el is not None else None
+
+            event = {
+                "mRID": mrid,
+                "description": description,
+                "interval": {
+                    "start": start,
+                    "duration": duration,
+                    "end": start + duration
+                },
+                "DERControlBase": {
+                    "opModMaxLimW": max_lim_w,
+                    "opModConnect": op_mod_connect
+                },
+                "receivedAt": int(time.time())
+            }
+
+            dr_events[mrid] = event
+            _log.info(f"DR event created: {mrid}")
+
+            return Response(
+                json.dumps({"mRID": mrid, "status": "created"}),
+                status=201,
+                mimetype="application/json"
+            )
+
+        except Exception as e:
+            _log.error(f"Failed to parse DR event: {e}")
+            return Response(f"Bad Request: {e}", status=400)
+    @app.route("/events", methods=["GET"])
+    def get_dr_events():
+        import time
+        now = int(time.time())
+        active = []
+        for evt in dr_events.values():
+            end = evt.get("interval", {}).get("end")
+            if end is None or end > now:
+                active.append(evt)
+        return Response(
+            json.dumps({"events": active, "count": len(active), "serverTime": now}),
+            status=200,
+            mimetype="application/json"
+        )
+    @app.route("/events/<event_id>/status", methods=["POST"])
+    def post_event_status(event_id):
+        import time
+        if event_id not in dr_events:
+            return Response("Event not found", status=404)
+        data = request.get_json()
+        if not data:
+            return Response("Bad Request", status=400)
+        data["timestamp"] = data.get("timestamp", int(time.time()))
+        if event_id not in dr_status:
+            dr_status[event_id] = []
+        dr_status[event_id].append(data)
+        _log.info(f"DR status received for event {event_id}: {data.get('result')}")
+        return Response(
+            json.dumps({"eventId": event_id, "recorded": True}),
+            status=200,
+            mimetype="application/json"
+        )
+
+    @app.route("/events/<event_id>/status", methods=["GET"])
+    def get_event_status(event_id):
+        if event_id not in dr_events:
+            return Response("Event not found", status=404)
+        return Response(
+            json.dumps({
+                "event": dr_events[event_id],
+                "responses": dr_status.get(event_id, [])
+            }),
+            status=200,
+            mimetype="application/json"
+        )
+# TODO investigate socket-io connection here. 
     # TODO investigate socket-io connection here.
     # app.config['SECRET_KEY'] = 'secret!'
     # socketio = SocketIO(app)
