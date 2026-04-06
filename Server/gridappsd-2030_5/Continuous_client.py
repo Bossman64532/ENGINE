@@ -69,5 +69,7 @@ while True:
     elif user_input.lower() == 'change':
         new_hostname = input("Enter new server hostname: ")
         changeHostname(new_hostname)
+    elif len(user_input) == 0:
+        make_request()
     else:
-        make_request(user_input)
+        make_request(request=user_input)
