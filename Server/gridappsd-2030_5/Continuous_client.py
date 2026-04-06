@@ -1,6 +1,6 @@
 #This is a client that should run continuously. It should take inputs to query the server and spit out the results. Change the IP address and port number as needed. It should also perform service discovery on the local network to find the services.
 import ieee_2030_5.client.client 
-from zeroconf import ServiceBrowser, ServiceInfo, ServiceListener, Zeroconf
+from zeroconf import ServiceBrowser, ServiceInfo, ServiceListener, Zeroconf, ZeroconfServiceTypes
 from ieee_2030_5.client.client import IEEE2030_5_Client
 
 
@@ -9,7 +9,7 @@ CA   = "/home/engine/tls/certs/ca.crt"
 CERT = "/home/engine/tls/certs/dev1.crt"        # dev1 certificate
 KEY  = "/home/engine/tls/private/dev1.pem"   # dev1 private key
 serverHostname = "192.168.92.131"
-# Create client
+# Create client each time a request is made, then disconnect after the request is complete.
 def make_request(request="/dcap", cafile=CA, server_hostname=serverHostname, keyfile=KEY, certfile=CERT, server_ssl_port=8443, debug=True):
     if request:
         client = IEEE2030_5_Client(
@@ -28,7 +28,24 @@ def changeHostname(new_hostname):
     global serverHostname
     serverHostname = new_hostname
     print(f"Server hostname changed to: {serverHostname}")
-    
+
+#From service.py  Does not work yet, need to figure out how to get the client to use the discovered services. 
+# Just use avahi while running the client.
+# class MyListener(ServiceListener):
+#     def update_service(self, zc: Zeroconf, type_: str, name: str) -> None:
+#         print(f"Service {name} updated")
+
+#     def remove_service(self, zc: Zeroconf, type_: str, name: str) -> None:
+#         print(f"Service {name} removed")
+
+#     def add_service(self, zc: Zeroconf, type_: str, name: str) -> None:
+#         info = zc.get_service_info(type_, name)
+#         print(f"Service {name} added, service info: {info}")
+# zeroconf = Zeroconf()
+# listener = MyListener()
+# browser = ServiceBrowser(zeroconf, "_smartenergy._tcp.local.", listener)
+
+# services = list(ZeroconfServiceTypes.find(zc=zeroconf))
 
 # print("\n=== DEVICE CAPABILITY ===")
 # dcap = client.device_capability("/dcap")

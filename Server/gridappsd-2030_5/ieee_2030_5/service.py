@@ -28,4 +28,5 @@ zeroconf.register_service(si)
 try:
     input("Press enter to exit...\n\n")
 finally:
+    zeroconf.unregister_service(si)
     zeroconf.close()
