@@ -933,7 +933,7 @@ def __build_app__(config: ServerConfiguration, tlsrepo: TLSRepository) -> Flask:
     ServerEndpoints(app, tls_repo=tlsrepo, config=config)
     AdminEndpoints(app, tls_repo=tlsrepo, config=config)
     
-    # ---- DR Event Endpoints ----
+    # ---- DR Event Endpoints ---- What we added
     dr_events = {}
     dr_status = {}
 
