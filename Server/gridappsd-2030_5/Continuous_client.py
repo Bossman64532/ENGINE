@@ -11,6 +11,7 @@ KEY  = "/home/engine/tls/private/dev1.pem"   # dev1 private key
 serverHostname = "192.168.92.131"
 # Create client each time a request is made, then disconnect after the request is complete.
 def make_request(request="/dcap", cafile=CA, server_hostname=serverHostname, keyfile=KEY, certfile=CERT, server_ssl_port=8443, debug=True):
+    print(f"Making request: {request}")
     if request:
         client = IEEE2030_5_Client(
         cafile=cafile,
