@@ -1548,7 +1548,7 @@ def build_server(config: ServerConfiguration, tlsrepo: TLSRepository, **kwargs) 
         "app": app,
         "host": host,
         "port": int(port),
-        "request_handler": IEEE2030_5_RequestHandler,
+        "handler": IEEE2030_5_RequestHandler,
         "ssl_context": ssl_context,
         "threaded": True,
         "passthrough_errors": False,
