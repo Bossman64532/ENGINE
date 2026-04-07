@@ -1,4 +1,5 @@
 #This is a client that should run continuously. It should take inputs to query the server and spit out the results. Change the IP address and port number as needed. It should also perform service discovery on the local network to find the services.
+import readline
 import ieee_2030_5.client.client 
 from zeroconf import ServiceBrowser, ServiceInfo, ServiceListener, Zeroconf, ZeroconfServiceTypes
 from ieee_2030_5.client.client import IEEE2030_5_Client
