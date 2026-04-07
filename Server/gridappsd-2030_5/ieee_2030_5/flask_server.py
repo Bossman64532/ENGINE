@@ -1550,7 +1550,7 @@ def build_server(config: ServerConfiguration, tlsrepo: TLSRepository, **kwargs) 
         "port": int(port),
         "handler": IEEE2030_5_RequestHandler,
         "ssl_context": ssl_context,
-        "threaded": True,
+        # "threaded": True,
         "passthrough_errors": False,
     }
 
