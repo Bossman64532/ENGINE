@@ -6,6 +6,7 @@ import ssl
 import threading
 import time
 import uuid
+import atexit
 from dataclasses import fields
 from datetime import datetime
 from functools import lru_cache
