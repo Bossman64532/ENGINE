@@ -934,7 +934,11 @@ def __build_app__(config: ServerConfiguration, tlsrepo: TLSRepository) -> Flask:
     ServerEndpoints(app, tls_repo=tlsrepo, config=config)
     AdminEndpoints(app, tls_repo=tlsrepo, config=config)
     
+<<<<<<< HEAD
     # ---- DR Event Endpoints ---- What we added
+=======
+    # ---- DR Event Endpoints ----
+>>>>>>> Tengis
     dr_events = {}
     dr_status = {}
 
