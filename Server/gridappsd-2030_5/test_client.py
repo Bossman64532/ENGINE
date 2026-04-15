@@ -34,7 +34,7 @@ CA   = "/home/engine/tls/certs/ca.crt"
 CERT = "/home/engine/tls/combined/dev1-combined.pem"
 KEY  = "/home/engine/tls/combined/dev1-combined.pem"
 
-SERVER_HOST = "192.168.110.129"
+SERVER_HOST = "192.168.149.137"
 HTTPS_PORT  = 8443
 
 EMS_ENABLED     = True   # Is the local EMS active?

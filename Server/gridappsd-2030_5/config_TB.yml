@@ -1,7 +1,7 @@
-server: 192.168.92.131
+server: 192.168.149.137
 port: 8443
 service_name: IEEE_2030_5
-proxy_hostname: 192.168.92.132:8443
+proxy_hostname: 192.168.149.138:8443
 proxy_enabled: True
 
 # Dual server configuration for HTTP admin access
