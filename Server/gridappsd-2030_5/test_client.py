@@ -30,11 +30,11 @@ import ieee_2030_5.utils as utils
 from ieee_2030_5.client.client import IEEE2030_5_Client
 
 # Certificate paths
-CA   = "/home/engine/tls/certs/ca.crt"
-CERT = "/home/engine/tls/combined/dev1-combined.pem"
-KEY  = "/home/engine/tls/combined/dev1-combined.pem"
+CA   = "/home/engine/Documents/Cloudtls/certs/ca.crt" #/home/engine/tls/certs/ca.crt"
+CERT = "/home/engine/Documents/Cloudtls/combined/dev1-combined.pem" #/home/engine/tls/combined/dev1-combined.pem"
+KEY  = "/home/engine/Documents/Cloudtls/combined/dev1-combined.pem" #/home/engine/tls/combined/dev1-combined.pem"
 
-SERVER_HOST = "192.168.149.137"
+SERVER_HOST = "178.128.190.144"
 HTTPS_PORT  = 8443
 
 EMS_ENABLED     = True   # Is the local EMS active?
