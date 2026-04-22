@@ -65,6 +65,7 @@ class DeviceConfiguration:
     poll_rate: int = 3
     fsas: list[str] = field(default_factory=list)
     ders: list[str] = field(default_factory=list)
+    programs: list[dict] = field(default_factory=list)
 
     @classmethod
     def from_dict(cls, env):

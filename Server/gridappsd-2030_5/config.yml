@@ -71,7 +71,7 @@ debug_client_traffic: true
 include_default_der_on_all_devices: True
 
 # Make sure that all ders have a default program associated with it
-include_default_der_program_on_ders: True
+include_default_der_program_on_ders: False
 
 # The default program to use for all ders.
 default_program:

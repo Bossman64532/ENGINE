@@ -16,7 +16,7 @@ from ieee_2030_5.persistance.points import atomic_operation
 _log = logging.getLogger(__name__)
 
 
-def create_device_fsa_with_program(device_href: str, config: ServerConfiguration) -> m.FunctionSetAssignments | None:
+def create_device_fsa_with_program(device_href: str, config: ServerConfiguration, device_program_override: m.DERProgram = None) -> m.FunctionSetAssignments | None:
     """
     Create a device-specific FSA with its own DERProgram and DERControlList.
 
@@ -56,7 +56,7 @@ def create_device_fsa_with_program(device_href: str, config: ServerConfiguration
         adpt.ListAdapter.initialize_uri(derp_list_href, m.DERProgram)
 
         # Create a copy of the default DER program for this device
-        device_program = copy.deepcopy(config.default_program)
+        device_program = copy.deepcopy(device_program_override if device_program_override else config.default_program)
         device_program.href = hrefs.SEP.join((derp_list_href, "0"))
         device_program.mRID = adpt.get_global_mrids().new_mrid()
 
