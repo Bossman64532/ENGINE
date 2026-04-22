@@ -540,7 +540,7 @@ class AdminEndpoints:
 
                 der_cntl_list.all = len(der_cntl_list.DERControl)
                 # add_href(derp.DERControlListLink.href, der_cntl_list)
-                adpt.TimeAdapter.add_event(data)
+                #adpt.TimeAdapter.add_event(data)  # patched: method does not exist
 
             return Response(headers={"Location": data.href}, status=status_code)
 
