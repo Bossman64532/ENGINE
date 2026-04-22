@@ -6,6 +6,7 @@ import ssl
 import threading
 import time
 import uuid
+from copy import deepcopy
 from dataclasses import fields
 from datetime import datetime
 from functools import lru_cache
@@ -18,7 +19,7 @@ from flask import Flask, Response, g, redirect, render_template, request, url_fo
 # from flask_socketio import SocketIO, send
 from werkzeug.serving import BaseWSGIServer
 
-from ieee_2030_5.utils import dataclass_to_xml
+from ieee_2030_5.utils import dataclass_to_xml, xml_to_dataclass
 
 __all__ = ["build_server"]
 
@@ -932,14 +933,231 @@ def __build_app__(config: ServerConfiguration, tlsrepo: TLSRepository) -> Flask:
 
     ServerEndpoints(app, tls_repo=tlsrepo, config=config)
     AdminEndpoints(app, tls_repo=tlsrepo, config=config)
-    
+
     # ---- DR Event Endpoints ----
     dr_events = {}
     dr_status = {}
+    reports = []
+    event_state = {}
+    pending_derms_events: dict[str, str] = {}
+    pending_derms_lock = threading.Lock()
+
+    def compute_event_status(event: dict, now: int | None = None) -> str:
+        if now is None:
+            now = int(time.time())
+
+        start = event.get("interval", {}).get("start")
+        end = event.get("interval", {}).get("end")
+
+        if start is None or end is None:
+            return "unknown"
+        if now < start:
+            return "upcoming"
+        elif start <= now < end:
+            return "active"
+        else:
+            return "expired"
+
+    def compute_public_event_status(event: dict, state: dict | None = None, now: int | None = None) -> str:
+        if now is None:
+            now = int(time.time())
+
+        if state is None:
+            state = event_state.get(event.get("mRID"), {})
+
+        if state.get("cancelled") is True:
+            return "cancelled"
+        if state.get("status") == "superseded":
+            return "superseded"
+
+        return compute_event_status(event, now)
+
+    def retry_pending_derms_events() -> None:
+        with pending_derms_lock:
+            pending_items = list(pending_derms_events.items())
+
+        for mrid, xml_payload in pending_items:
+            try:
+                synced_count = sync_event_to_client_controls(xml_payload)
+            except Exception as e:
+                _log.warning("Failed to retry DERMS event %s client sync: %s", mrid, e)
+                continue
+
+            if synced_count > 0:
+                with pending_derms_lock:
+                    pending_derms_events.pop(mrid, None)
+                _log.info("Pending DERMS event %s synced to %d client DERControlList(s)", mrid, synced_count)
+
+    def scheduler_loop():
+        last_pending_retry = 0.0
+        while True:
+            now = int(time.time())
+
+            for mrid, event in list(dr_events.items()):
+                if mrid not in event_state:
+                    continue
+
+                state = event_state[mrid]
+                if state.get("cancelled") is True:
+                    continue
+
+                start = event.get("interval", {}).get("start")
+                end = event.get("interval", {}).get("end")
+                if start is None or end is None:
+                    continue
+
+                if state.get("status") == "upcoming" and now >= start:
+                    state["status"] = "active"
+                    if state.get("executedAt") is None:
+                        state["executedAt"] = now
+                    state["startErrorSec"] = state["executedAt"] - start
+                    state["lastUpdatedAt"] = now
+                elif state.get("status") == "active" and now >= end:
+                    state["status"] = "expired"
+                    state["lastUpdatedAt"] = now
+
+            if time.monotonic() - last_pending_retry >= 1.0:
+                retry_pending_derms_events()
+                last_pending_retry = time.monotonic()
+
+            time.sleep(0.2)
+
+    def build_event_record(
+        mrid: str,
+        description: str | None,
+        start: int,
+        duration: int,
+        max_lim_w,
+        op_mod_connect,
+    ) -> dict:
+        now = int(time.time())
+        event = {
+            "mRID": mrid,
+            "description": description,
+            "interval": {
+                "start": start,
+                "duration": duration,
+                "end": start + duration,
+            },
+            "DERControlBase": {
+                "opModMaxLimW": max_lim_w,
+                "opModConnect": op_mod_connect,
+            },
+            "receivedAt": now,
+            "lastUpdatedAt": now,
+        }
+        event["currentStatus"] = compute_event_status(event, now)
+        return event
+
+    def get_end_devices_for_derms_sync() -> list[m.EndDevice]:
+        end_devices = adpt.ListAdapter.get_resource_list("/edev")
+        if isinstance(end_devices, m.EndDeviceList) and end_devices.EndDevice:
+            return end_devices.EndDevice
+
+        fetched_devices = adpt.EndDeviceAdapter.fetch_all()
+        if isinstance(fetched_devices, m.EndDeviceList) and fetched_devices.EndDevice:
+            return fetched_devices.EndDevice
+
+        devices = []
+        for cfg_device in config.devices:
+            if not cfg_device.id:
+                continue
+
+            device_index = hrefs.get_device_hashed_index(cfg_device.id)
+            device = adpt.EndDeviceAdapter.fetch_by_href(f"/edev{hrefs.SEP}{device_index}")
+            if device:
+                devices.append(device)
+        if devices:
+            return devices
+
+        try:
+            import pickle
+
+            index_data = adpt.EndDeviceAdapter._db.get_point(adpt.EndDeviceAdapter._href_index_key)
+            if not index_data:
+                return []
+
+            href_index = pickle.loads(index_data)
+            devices = []
+            for device_index in sorted(set(href_index.values())):
+                device_data = adpt.EndDeviceAdapter._db.get_point(f"enddevice:{device_index}")
+                if device_data:
+                    devices.append(pickle.loads(device_data))
+            return devices
+        except Exception as e:
+            _log.warning("Failed to enumerate EndDeviceAdapter devices for DERMS sync: %s", e)
+            return []
+
+    def sync_event_to_client_controls(xml_payload: str) -> int:
+        parsed = xml_to_dataclass(xml_payload)
+        if not isinstance(parsed, m.DERControl):
+            raise ValueError("DERMS payload did not parse as DERControl")
+
+        end_devices = get_end_devices_for_derms_sync()
+        if not end_devices:
+            _log.warning("DERMS event received but no end devices were available for control sync")
+            return 0
+
+        synced_count = 0
+        for end_device in end_devices:
+            fsa_list = adpt.ListAdapter.get_list(f"{end_device.href}_fsa") or []
+            for fsa in fsa_list:
+                derp_list_link = getattr(fsa, "DERProgramListLink", None)
+                if not derp_list_link:
+                    continue
+
+                programs = adpt.ListAdapter.get_list(derp_list_link.href) or []
+                for program in programs:
+                    derc_link = getattr(program, "DERControlListLink", None)
+                    if not derc_link:
+                        continue
+
+                    derc_list = adpt.ListAdapter.get_resource_list(derc_link.href)
+                    if not isinstance(derc_list, m.DERControlList):
+                        continue
+
+                    existing_index = None
+                    for index, control in enumerate(derc_list.DERControl):
+                        if control.mRID == parsed.mRID:
+                            existing_index = index
+                            break
+
+                    control_copy = deepcopy(parsed)
+                    if existing_index is None:
+                        control_copy.href = f"{derc_link.href}{hrefs.SEP}{len(derc_list.DERControl)}"
+                        adpt.ListAdapter.append(derc_link.href, control_copy)
+                    else:
+                        control_copy.href = derc_list.DERControl[existing_index].href
+                        adpt.ListAdapter.put(derc_link.href, existing_index, control_copy)
+
+                    program.DERControlListLink.all = len(adpt.ListAdapter.get_list(derc_link.href) or [])
+                    adpt.TimeAdapter.add_event(control_copy)
+                    _log.info(
+                        "DERMS event %s synced to client DERControlList %s",
+                        control_copy.mRID.hex() if isinstance(control_copy.mRID, bytes) else control_copy.mRID,
+                        derc_link.href,
+                    )
+                    synced_count += 1
+
+        if synced_count == 0:
+            _log.warning("DERMS event received but no client DERControlList was available for control sync")
+
+        return synced_count
+
+    def log_event_created(event: dict) -> None:
+        _log.info(
+            "DER_EVENT_CREATED "
+            f"mRID={event['mRID']} "
+            f"description={event.get('description')} "
+            f"start={event['interval']['start']} "
+            f"duration={event['interval']['duration']} "
+            f"end={event['interval']['end']} "
+            f"receivedAt={event['receivedAt']} "
+            f"status={event['currentStatus']}"
+        )
 
     @app.route("/derms/events", methods=["POST"])
     def derms_create_event():
-        import uuid, time
         import xml.etree.ElementTree as ET
 
         data = request.get_data(as_text=True)
@@ -947,7 +1165,6 @@ def __build_app__(config: ServerConfiguration, tlsrepo: TLSRepository) -> Flask:
             return Response("Bad Request", status=400)
 
         try:
-            # Parse XML
             ns = {"sep": "urn:ieee:std:2030.5:ns"}
             root = ET.fromstring(data)
 
@@ -955,7 +1172,6 @@ def __build_app__(config: ServerConfiguration, tlsrepo: TLSRepository) -> Flask:
                 el = root.find(f"sep:{tag}", ns)
                 return el.text if el is not None else None
 
-            # Extract fields
             mrid = find_text("mRID") or str(uuid.uuid4())
             description = find_text("description")
 
@@ -972,77 +1188,213 @@ def __build_app__(config: ServerConfiguration, tlsrepo: TLSRepository) -> Flask:
                 c_el = control_base.find("sep:opModConnect", ns)
                 op_mod_connect = c_el.text if c_el is not None else None
 
-            event = {
-                "mRID": mrid,
-                "description": description,
-                "interval": {
-                    "start": start,
-                    "duration": duration,
-                    "end": start + duration
-                },
-                "DERControlBase": {
-                    "opModMaxLimW": max_lim_w,
-                    "opModConnect": op_mod_connect
-                },
-                "receivedAt": int(time.time())
-            }
+            event = build_event_record(
+                mrid=mrid,
+                description=description,
+                start=start,
+                duration=duration,
+                max_lim_w=max_lim_w,
+                op_mod_connect=op_mod_connect,
+            )
 
+            now = int(time.time())
+            end = start + duration
+
+            new_status = compute_event_status(event, now)
+
+            for existing_mrid, existing_event in dr_events.items():
+                existing_start = existing_event.get("interval", {}).get("start")
+                existing_end = existing_event.get("interval", {}).get("end")
+                if existing_start is None or existing_end is None:
+                    continue
+                existing_status = compute_event_status(existing_event, now)
+                if (
+                    start < existing_end
+                    and existing_start < end
+                    and existing_status == "upcoming"
+                    and new_status == "upcoming"
+                ):
+                    if existing_mrid not in event_state:
+                        event_state[existing_mrid] = {}
+                    event_state[existing_mrid]["status"] = "superseded"
+                    event_state[existing_mrid]["supersededBy"] = mrid
+
+            event_state[mrid] = {
+                "status": "upcoming" if start > now else "active" if start <= now < end else "expired",
+                "creationTime": now,
+                "lastUpdatedAt": now,
+                "executedAt": None,
+                "startErrorSec": None,
+                "cancelled": False,
+                "supersededBy": None,
+            }
             dr_events[mrid] = event
-            _log.info(f"DR event created: {mrid}")
+            synced_count = sync_event_to_client_controls(data)
+            if synced_count == 0:
+                with pending_derms_lock:
+                    pending_derms_events[mrid] = data
+                _log.info("Queued DERMS event %s for client DERControlList sync retry", mrid)
+            log_event_created(event)
 
             return Response(
-                json.dumps({"mRID": mrid, "status": "created"}),
+                json.dumps(
+                    {
+                        "mRID": mrid,
+                        "status": "created",
+                        "currentStatus": event["currentStatus"],
+                    }
+                ),
                 status=201,
-                mimetype="application/json"
+                mimetype="application/json",
             )
 
         except Exception as e:
             _log.error(f"Failed to parse DR event: {e}")
             return Response(f"Bad Request: {e}", status=400)
+
+    @app.route("/derms/events/<mrid>/cancel", methods=["POST"])
+    def derms_cancel_event(mrid):
+        if mrid not in event_state:
+            return Response(
+                json.dumps(
+                    {
+                        "mRID": mrid,
+                        "error": "Event not found",
+                    }
+                ),
+                status=404,
+                mimetype="application/json",
+            )
+
+        event_state[mrid]["status"] = "cancelled"
+        event_state[mrid]["cancelled"] = True
+        event_state[mrid]["lastUpdatedAt"] = int(time.time())
+
+        return Response(
+            json.dumps({"mRID": mrid, "status": "cancelled", "currentStatus": "cancelled"}),
+            status=200,
+            mimetype="application/json",
+        )
+
     @app.route("/events", methods=["GET"])
     def get_dr_events():
-        import time
         now = int(time.time())
-        active = []
+        events_out = []
+
         for evt in dr_events.values():
-            end = evt.get("interval", {}).get("end")
-            if end is None or end > now:
-                active.append(evt)
+            evt_copy = dict(evt)
+            evt_copy["interval"] = dict(evt["interval"])
+            evt_copy["DERControlBase"] = dict(evt.get("DERControlBase", {}))
+            state = event_state.get(evt["mRID"], {})
+
+            evt_copy["currentStatus"] = compute_public_event_status(evt_copy, state, now)
+            evt_copy["executedAt"] = state.get("executedAt")
+            evt_copy["startErrorSec"] = state.get("startErrorSec")
+            evt_copy["cancelled"] = state.get("cancelled")
+            evt_copy["supersededBy"] = state.get("supersededBy")
+            evt_copy["isActiveNow"] = evt_copy["currentStatus"] == "active"
+
+            events_out.append(evt_copy)
+
         return Response(
-            json.dumps({"events": active, "count": len(active), "serverTime": now}),
+            json.dumps(
+                {
+                    "events": events_out,
+                    "count": len(events_out),
+                    "serverTime": now,
+                }
+            ),
             status=200,
-            mimetype="application/json"
+            mimetype="application/json",
         )
+
     @app.route("/events/<event_id>/status", methods=["POST"])
     def post_event_status(event_id):
-        import time
+        now = int(time.time())
+
         if event_id not in dr_events:
             return Response("Event not found", status=404)
+
         data = request.get_json()
         if not data:
             return Response("Bad Request", status=400)
-        data["timestamp"] = data.get("timestamp", int(time.time()))
+
+        data["timestamp"] = data.get("timestamp", now)
+
         if event_id not in dr_status:
             dr_status[event_id] = []
+
         dr_status[event_id].append(data)
-        _log.info(f"DR status received for event {event_id}: {data.get('result')}")
+        dr_events[event_id]["lastUpdatedAt"] = now
+        dr_events[event_id]["currentStatus"] = compute_event_status(dr_events[event_id], now)
+
+        _log.info(
+            "DR_STATUS_RECEIVED "
+            f"eventId={event_id} "
+            f"result={data.get('result')} "
+            f"timestamp={data['timestamp']} "
+            f"serverRecordedAt={now} "
+            f"eventStatus={dr_events[event_id]['currentStatus']}"
+        )
+
         return Response(
-            json.dumps({"eventId": event_id, "recorded": True}),
+            json.dumps(
+                {
+                    "eventId": event_id,
+                    "recorded": True,
+                    "serverRecordedAt": now,
+                }
+            ),
             status=200,
-            mimetype="application/json"
+            mimetype="application/json",
         )
 
     @app.route("/events/<event_id>/status", methods=["GET"])
     def get_event_status(event_id):
+        now = int(time.time())
+
         if event_id not in dr_events:
             return Response("Event not found", status=404)
+
+        event_copy = dict(dr_events[event_id])
+        event_copy["interval"] = dict(dr_events[event_id]["interval"])
+        event_copy["DERControlBase"] = dict(dr_events[event_id].get("DERControlBase", {}))
+        event_copy["currentStatus"] = compute_public_event_status(
+            event_copy,
+            event_state.get(event_id, {}),
+            now,
+        )
+        event_copy["isActiveNow"] = event_copy["currentStatus"] == "active"
+
         return Response(
-            json.dumps({
-                "event": dr_events[event_id],
-                "responses": dr_status.get(event_id, [])
-            }),
+            json.dumps(
+                {
+                    "event": event_copy,
+                    "responses": dr_status.get(event_id, []),
+                    "serverTime": now,
+                }
+            ),
             status=200,
-            mimetype="application/json"
+            mimetype="application/json",
+        )
+
+    @app.route("/derms/report", methods=["POST"])
+    def derms_report():
+        data = request.get_json() or {}
+        data["timestamp"] = int(time.time())
+        reports.append(data)
+        return Response(
+            json.dumps({"status": "ok"}),
+            status=200,
+            mimetype="application/json",
+        )
+
+    @app.route("/derms/report/all", methods=["GET"])
+    def derms_report_all():
+        return Response(
+            json.dumps(reports),
+            status=200,
+            mimetype="application/json",
         )
 # TODO investigate socket-io connection here. 
     # TODO investigate socket-io connection here.
@@ -1387,6 +1739,10 @@ def __build_app__(config: ServerConfiguration, tlsrepo: TLSRepository) -> Flask:
                 mimetype="application/json",
                 status=500,
             )
+
+    if not hasattr(app, "_scheduler_started"):
+        threading.Thread(target=scheduler_loop, daemon=True).start()
+        app._scheduler_started = True
 
     return app
 

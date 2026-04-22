@@ -417,8 +417,9 @@ def initialize_2030_5(config: ServerConfiguration, tlsrepo: TLSRepository):
                 existing_device.sFDI = tlsrepo.sfdi(cfg_device.id)
                 existing_device.postRate = cfg_device.post_rate
 
-                # Link existing device to default FSA if available
-                if default_fsa:
+                # Link existing device to a device-specific FSA when a default
+                # program is available to seed it.
+                if config.default_program:
                     ed_href = hrefs.EndDeviceHref(device_index)
                     # Initialize FSA list if needed
                     # Create device-specific FSA

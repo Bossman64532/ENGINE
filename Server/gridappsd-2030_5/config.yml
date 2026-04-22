@@ -1,9 +1,8 @@
 ---
-# Server binding - use YOUR VM's IP
-server: 192.168.40.128
+server: 192.168.172.128
 port: 8444
 service_name: IEEE_2030_5
-proxy_hostname: 192.168.40.128:8443
+proxy_hostname: 192.168.172.128:8443
 proxy_enabled: True
 
 # Dual server configuration for HTTP admin access
@@ -25,7 +24,8 @@ server_mode: enddevices_create_on_start
 #   lfdi_mode_from_cert_fingerprint - sha256 hash of the certificates fingerprint.
 #
 # default: lfdi_mode_from_cert_fingerprint
-lfdi_mode: lfdi_mode_from_file
+# lfdi_mode: lfdi_mode_from_file
+lfdi_mode: lfdi_mode_from_cert_fingerprint
 
 # Create an administrator certificate that can be used from
 # browser/api to connect to the platform.
@@ -33,7 +33,7 @@ lfdi_mode: lfdi_mode_from_file
 # this is important for the demo
 generate_admin_cert: True
 
-# Poll rates (in seconds)
+# These are all optional and default to 120 seconds.
 log_event_list_poll_rate: 30
 device_capability_poll_rate: 30
 mirror_usage_point_post_rate: 30
@@ -52,26 +52,20 @@ log_event_list: 30
 reading_set: 30
 time: 30
 
-#post_rate: 60
 poll_rate: 30
 
 # Reset storage so no memory when server restarts.
 cleanse_storage: false
 
 # Directory containing data files for the platform.
-# This directory will be created if it does not exist.
 storage_path: data_store
 
 # Database backend configuration for point storage
 # Options: "zodb" (default) or "sqlite"
-# ZODB: File-based object database with MVCC
-# SQLite: Lightweight SQL database with better concurrency
 database_backend: sqlite
-# Optional: Custom path for database file
 database_path: "/home/hyejoon-lee/.ieee_2030_5_data/custom_points.db"
 
 # Enable debug logging of all client requests/responses to individual files
-# When enabled, creates a debug_client_traffic/ directory with per-client logs
 debug_client_traffic: true
 
 # Should every device have a der associated by default?
@@ -83,15 +77,42 @@ include_default_der_program_on_ders: True
 # The default program to use for all ders.
 default_program:
   description: Default Program
-  primacy: 0
+  primacy: 89
   DefaultDERControl:
-    setESDelay: 30
-    setGradW: 1000
+    setESDelay: 300
+    setGradW: 100
+    setSoftGradW: 50
+    setESHighFreq: 6010
+    setESLowFreq: 5990
+    setESHighVolt: 26400
+    setESLowVolt: 21100
+    setESRandomDelay: 300
+    setESRampTms: 60000
     DERControlBase:
       opModConnect: true
       opModEnergize: true
+      opModMaxLimW: 295
 
-# Define test devices
+gridappsd:
+  address: "localhost"
+  port: 61613
+  model_name: "final_9_20_2024_reduced_southern"
+
+  field_bus_def:
+    id: substation
+    connection_type: CONNECTION_TYPE_GRIDAPPSD
+    is_ot_bus: True
+
+  publish_interval_seconds: 30
+  publish_topic: "/topic/goss.gridappsd.IEEE_2030_5.output"
+
+  house_named_inverters_regex: ".*tl_house_\\d+_\\d+v"
+  utility_named_inverters_regex: ".*utility_bat\\d+_[a-zA-Z\\d]+"
+
+  username: system
+  password: manager
+  default_pin: 111115
+
 devices:
   - id: dev1
     pin: 111115
@@ -99,23 +120,22 @@ devices:
   - id: dev2
     pin: 222225
 
-# Define programs
 programs:
-  - description: Program 1
-    primacy: 0
+  - description: Microinverter Program 1
+    primacy: 89
     DefaultDERControl:
-      setESDelay: 30
-      setGradW: 1000
+      setESDelay: 300
+      setGradW: 100
+      setSoftGradW: 50
+      setESHighFreq: 6010
+      setESLowFreq: 5990
+      setESHighVolt: 26400
+      setESLowVolt: 21100
+      setESRandomDelay: 300
+      setESRampTms: 60000
       DERControlBase:
         opModConnect: true
         opModEnergize: true
+        opModMaxLimW: 295
 
-# Define curves
-curves:
-  - description: Volt-VAr Curve
-    curveType: opModVoltVar
-    CurveData:
-      - xvalue: 99
-        yvalue: 50
-      - xvalue: 103
-        yvalue: -50
+curves: []
