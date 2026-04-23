@@ -29,19 +29,40 @@ Status reporting back to utility:
 """
 from __future__ import annotations
 
+import os
 import time
+from pathlib import Path
+
+import yaml
 
 import ieee_2030_5.models as m
 import ieee_2030_5.utils as utils
 from ieee_2030_5.client.client import IEEE2030_5_Client
 
-# Certificate paths
-CA   = "/home/engine/tls/certs/ca.crt"
-CERT = "/home/engine/tls/combined/dev1-combined.pem"
-KEY  = "/home/engine/tls/combined/dev1-combined.pem"
 
-SERVER_HOST = "192.168.110.129"
-HTTPS_PORT  = 8443
+def load_server_endpoint() -> tuple[str, int]:
+    """Load the client endpoint from config.yml, falling back to the demo defaults."""
+    config_path = Path(__file__).with_name("config.yml")
+    if config_path.exists():
+        with config_path.open() as fp:
+            config = yaml.safe_load(fp) or {}
+
+        endpoint = config.get("proxy_hostname") or f"{config.get('server', '192.168.110.129')}:{config.get('port', 8443)}"
+        host, _, port = str(endpoint).partition(":")
+        return host, int(port or 8443)
+
+    return "192.168.110.129", 8443
+
+
+# Certificate paths
+TLS_DIR = Path(os.getenv("IEEE2030_5_TLS_DIR", "~/tls")).expanduser()
+CA = Path(os.getenv("IEEE2030_5_CA", TLS_DIR / "certs" / "ca.crt")).expanduser()
+CERT = Path(os.getenv("IEEE2030_5_CERT", TLS_DIR / "combined" / "dev1-combined.pem")).expanduser()
+KEY = Path(os.getenv("IEEE2030_5_KEY", str(CERT))).expanduser()
+
+DEFAULT_SERVER_HOST, DEFAULT_HTTPS_PORT = load_server_endpoint()
+SERVER_HOST = os.getenv("IEEE2030_5_SERVER_HOST", DEFAULT_SERVER_HOST)
+HTTPS_PORT = int(os.getenv("IEEE2030_5_HTTPS_PORT", str(DEFAULT_HTTPS_PORT)))
 
 EMS_ENABLED     = True   # Is the local EMS active?
 DEVICE_MAX_W    = 295    # rtgMaxW from config.yml – hard physical rated limit
@@ -351,6 +372,8 @@ def main():
         print(f"\n=== {label} ===")
         print(client.request(base + suffix))
 
+    assigned_der_program = None
+
     for label, path in [
         ("DER PROGRAMS",        "/derp"),
         ("DER PROGRAM 0",       base + "_fsa_0_derp_0"),
@@ -361,10 +384,25 @@ def main():
         ("USAGE POINTS",        "/upt"),
     ]:
         print(f"\n=== {label} ===")
-        print(client.request(path))
+        resource = client.request(path)
+        print(resource)
+        if label == "DER PROGRAM 0":
+            assigned_der_program = resource
 
-    derc_href = "/derp_1_derc"       # scheduled controls for Microinverter Program 1
-    ders_href = base + "_der_0_ders" # DERStatus PUT endpoint for this device
+    if assigned_der_program and assigned_der_program.DERControlListLink:
+        derc_href = assigned_der_program.DERControlListLink.href
+    else:
+        derc_href = base + "_fsa_0_derp_0_derc"
+
+    if edev_list.EndDevice and edev_list.EndDevice[0].DERListLink:
+        der_list = client.request(edev_list.EndDevice[0].DERListLink.href)
+    else:
+        der_list = client.request(base + "_der")
+
+    if der_list and der_list.DER and der_list.DER[0].DERStatusLink:
+        ders_href = der_list.DER[0].DERStatusLink.href
+    else:
+        ders_href = base + "_der_0_ders"
 
     device_lfdi = None
     if edev_list.EndDevice:
