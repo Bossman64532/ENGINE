@@ -20,22 +20,50 @@ Decision tree:
                            1: continue
     3. Constraints allow?  0: post REJECT, stop
                            1: post ACCEPT, execute event, PUT DERStatus
+
+
+Status reporting back to utility:
+    - POST /rsps  status=2 (started)    when event is accepted and applied
+    - POST /rsps  status=3 (completed)  when event ends (disappears from server)
+    - POST /rsps  status=7 or 8        when event is rejected
+    - PUT  /ders                        after every decision with current inverter state
 """
 from __future__ import annotations
 
+import os
 import time
+from pathlib import Path
+
+import yaml
 
 import ieee_2030_5.models as m
 import ieee_2030_5.utils as utils
 from ieee_2030_5.client.client import IEEE2030_5_Client
 
-# Certificate paths
-CA   = "/home/engine/tls/certs/ca.crt"
-CERT = "/home/engine/tls/combined/dev1-combined.pem"
-KEY  = "/home/engine/tls/combined/dev1-combined.pem"
 
-SERVER_HOST = "192.168.149.137"
-HTTPS_PORT  = 8443
+def load_server_endpoint() -> tuple[str, int]:
+    """Load the client endpoint from config.yml, falling back to the demo defaults."""
+    config_path = Path(__file__).with_name("config.yml")
+    if config_path.exists():
+        with config_path.open() as fp:
+            config = yaml.safe_load(fp) or {}
+
+        endpoint = config.get("proxy_hostname") or f"{config.get('server', '192.168.110.129')}:{config.get('port', 8443)}"
+        host, _, port = str(endpoint).partition(":")
+        return host, int(port or 8443)
+
+    return "192.168.110.129", 8443
+
+
+# Certificate paths
+TLS_DIR = Path(os.getenv("IEEE2030_5_TLS_DIR", "~/tls")).expanduser()
+CA = Path(os.getenv("IEEE2030_5_CA", TLS_DIR / "certs" / "ca.crt")).expanduser()
+CERT = Path(os.getenv("IEEE2030_5_CERT", TLS_DIR / "combined" / "dev1-combined.pem")).expanduser()
+KEY = Path(os.getenv("IEEE2030_5_KEY", str(CERT))).expanduser()
+
+DEFAULT_SERVER_HOST, DEFAULT_HTTPS_PORT = load_server_endpoint()
+SERVER_HOST = os.getenv("IEEE2030_5_SERVER_HOST", DEFAULT_SERVER_HOST)
+HTTPS_PORT = int(os.getenv("IEEE2030_5_HTTPS_PORT", str(DEFAULT_HTTPS_PORT)))
 
 EMS_ENABLED     = True   # Is the local EMS active?
 DEVICE_MAX_W    = 295    # rtgMaxW from config.yml – hard physical rated limit
@@ -108,6 +136,11 @@ def post_response(client: IEEE2030_5_Client,
                   device_lfdi: str) -> None:
     """
     POST a DERControlResponse to /rsps.
+
+    This is the primary mechanism for reporting status back to the utility.
+    The utility reads these responses to know what the device did with the event.
+
+
     status_code : one of the STATUS_* constants above
     device_lfdi : this device's LFDI hex string
     """
@@ -140,8 +173,11 @@ def put_der_status(client: IEEE2030_5_Client,
     """
     PUT a DERStatus object to /edev_{n}_der_{n}_ders.
 
-    The server stores this and makes it available for utility operators
-    to query the current operating state of the device.
+
+    This is the secondary mechanism for reporting status back to the utility.
+    It tells the utility what physical state the inverter is actually in,
+    independent of event decisions. Utility operators can query this at any time.
+
 
     inverter_status_value : one of the INVERTER_STATUS_* constants
     op_mode_value         : one of the OP_MODE_* constants
@@ -191,14 +227,14 @@ def put_der_status(client: IEEE2030_5_Client,
 
 # Decision tree
 
-def evaluate_event(event: m.DERControl) -> tuple[str, str, int]:
+
+def evaluate_event(event: m.DERControl) -> tuple[str, str]:
     """
     Run the decision tree against a single m.DERControl event.
 
-    Returns (decision, reason, status_code):
-        decision    : "ACCEPT" | "REJECT" | "OVERRIDE"
-        reason      : human-readable explanation (empty string for ACCEPT)
-        status_code : IEEE 2030.5 Table 27 status to report back
+    Returns (decision, reason):
+        decision : "ACCEPT" | "REJECT" | "OVERRIDE"
+        reason   : human-readable explanation (empty string for ACCEPT)
     """
     mrid = event.mRID if isinstance(event.mRID, str) else event.mRID.hex()
     desc = event.description or "(no description)"
@@ -225,7 +261,8 @@ def evaluate_event(event: m.DERControl) -> tuple[str, str, int]:
         print(f"  │  override=1  →  OVERRIDE")
         print(f"  │  reason: {reason}")
         print(f"  └─ Decision: OVERRIDE")
-        return "OVERRIDE", reason, STATUS_EVENT_REJECTED_NOT_APPLICABLE
+        return "OVERRIDE", reason
+
 
     print(f"  │  override=0  →  continue")
 
@@ -235,7 +272,9 @@ def evaluate_event(event: m.DERControl) -> tuple[str, str, int]:
         print(f"  │  EMS enabled=0  →  REJECT")
         print(f"  │  reason: {reason}")
         print(f"  └─ Decision: REJECT")
-        return "REJECT", reason, STATUS_EVENT_REJECTED_NOT_APPLICABLE
+
+        return "REJECT", reason
+
 
     print(f"  │  EMS enabled=1  →  continue")
 
@@ -259,11 +298,12 @@ def evaluate_event(event: m.DERControl) -> tuple[str, str, int]:
         print(f"  │  constraints allow=0  →  REJECT")
         print(f"  │  reason: {constraint_reason}")
         print(f"  └─ Decision: REJECT")
-        return "REJECT", constraint_reason, STATUS_EVENT_REJECTED_UNMET_CONSTRAINT
+
+        return "REJECT", constraint_reason
 
     print(f"  │  constraints allow=1  →  ACCEPT")
     print(f"  └─ Decision: ACCEPT")
-    return "ACCEPT", "", STATUS_EVENT_RECEIVED
+    return "ACCEPT", ""
 
 
 # Apply an accepted event and return the resulting inverter state
@@ -327,7 +367,9 @@ def main():
     for ed in edev_list.EndDevice:
         print(f"  sFDI: {ed.sFDI}  href: {ed.href}  lFDI: {ed.lFDI}")
 
+
     # Base href for this device (e.g. "/edev_38879")
+
     base = edev_list.EndDevice[0].href if edev_list.EndDevice else "/edev_0"
 
     for label, suffix in [
@@ -342,6 +384,10 @@ def main():
         print(f"\n=== {label} ===")
         print(client.request(base + suffix))
 
+
+    assigned_der_program = None
+
+
     for label, path in [
         ("DER PROGRAMS",        "/derp"),
         ("DER PROGRAM 0",       base + "_fsa_0_derp_0"),
@@ -352,16 +398,28 @@ def main():
         ("USAGE POINTS",        "/upt"),
     ]:
         print(f"\n=== {label} ===")
-        print(client.request(path))
 
-    # Paths we'll use
-    derc_href = base + "_fsa_0_derp_0_derc"   # all scheduled controls
+        resource = client.request(path)
+        print(resource)
+        if label == "DER PROGRAM 0":
+            assigned_der_program = resource
 
-    # DERStatus PUT href: /edev_{n}_der_{n}_ders
-    # The DER list is at base + "_der", DER 0 status is at base + "_der_0_ders"
-    ders_href = base + "_der_0_ders"
+    if assigned_der_program and assigned_der_program.DERControlListLink:
+        derc_href = assigned_der_program.DERControlListLink.href
+    else:
+        derc_href = base + "_fsa_0_derp_0_derc"
 
-    # Get device LFDI for response messages
+    if edev_list.EndDevice and edev_list.EndDevice[0].DERListLink:
+        der_list = client.request(edev_list.EndDevice[0].DERListLink.href)
+    else:
+        der_list = client.request(base + "_der")
+
+    if der_list and der_list.DER and der_list.DER[0].DERStatusLink:
+        ders_href = der_list.DER[0].DERStatusLink.href
+    else:
+        ders_href = base + "_der_0_ders"
+
+
     device_lfdi = None
     if edev_list.EndDevice:
         raw = edev_list.EndDevice[0].lFDI
@@ -389,7 +447,14 @@ def main():
     print(f"  Override  : {'ACTIVE' if OVERRIDE_ACTIVE else 'off'}")
     print("=" * 60)
 
-    seen_mrids: set[str] = set()
+
+    # seen_events  : mRID -> event object, for all events seen this session
+    # evaluated    : mRIDs that have already been acted on
+    # prev_mrids   : mRIDs present in last poll, to detect when events end
+    seen_events: dict[str, m.DERControl] = {}
+    evaluated: set[str] = set()
+    prev_mrids: set[str] = set()
+
 
     for poll_num in range(1, 7):
         print(f"\n--- Poll #{poll_num} at {time.strftime('%H:%M:%S')} ---")
@@ -403,25 +468,57 @@ def main():
             scheduled = fetch_der_controls(c, derc_href)
             print(f"  Scheduled DERControls : {len(scheduled)}")
 
+            # Build current mRID set and cache event objects
+            current_mrids: set[str] = set()
+            for event in scheduled:
+                mrid = event.mRID if isinstance(event.mRID, str) else event.mRID.hex()
+                current_mrids.add(mrid)
+                seen_events[mrid] = event
+
+            # Detect events that just ended (present last poll, gone now)
+            for mrid in prev_mrids - current_mrids:
+                last_event = seen_events.get(mrid)
+                if last_event and device_lfdi:
+                    print(f"  *** Event ended: {mrid[:16]}... — reverting to full output ***")
+                    # POST status=3 (completed) so utility knows device reverted
+                    post_response(c, last_event, STATUS_EVENT_COMPLETED, device_lfdi)
+                    # PUT DERStatus showing inverter back to normal
+                    put_der_status(
+                        client=c,
+                        ders_href=ders_href,
+                        inverter_status_value=INVERTER_STATUS_MPPT,
+                        op_mode_value=OP_MODE_OPERATIONAL,
+                        connected=True,
+                    )
+                # Allow re-evaluation if this event reappears later
+                evaluated.discard(mrid)
+
+            # Evaluate events not yet acted on
             for event in scheduled:
                 mrid = event.mRID if isinstance(event.mRID, str) else event.mRID.hex()
 
-                if mrid in seen_mrids:
+                if mrid in evaluated:
                     print(f"  [skip] Already evaluated {mrid[:16]}...")
                     continue
-                seen_mrids.add(mrid)
 
-                # Run the decision tree
-                decision, reason, status_code = evaluate_event(event)
+                evaluated.add(mrid)
 
-                # Report decision back to server over HTTPS
+                # Run decision tree
+                decision, reason = evaluate_event(event)
+
+                # POST response to utility
                 if device_lfdi:
-                    post_response(c, event, status_code, device_lfdi)
+                    if decision == "ACCEPT":
+                        # status=2: event started — device is actively applying it
+                        post_response(c, event, STATUS_EVENT_STARTED, device_lfdi)
+                    elif decision == "OVERRIDE":
+                        post_response(c, event, STATUS_EVENT_REJECTED_NOT_APPLICABLE, device_lfdi)
+                    else:  # REJECT
+                        post_response(c, event, STATUS_EVENT_REJECTED_UNMET_CONSTRAINT, device_lfdi)
 
-                # Act on decision and report resulting state to server
+                # Act and PUT DERStatus
                 if decision == "ACCEPT":
                     inverter_status, op_mode, connected = apply_event(event)
-                    # PUT DERStatus so server records what the inverter is now doing
                     put_der_status(
                         client=c,
                         ders_href=ders_href,
@@ -432,7 +529,9 @@ def main():
 
                 elif decision == "REJECT":
                     print(f"  → [REJECTED] {reason}")
+
                     # Report that we are still in normal operational state
+
                     put_der_status(
                         client=c,
                         ders_href=ders_href,
@@ -443,7 +542,9 @@ def main():
 
                 elif decision == "OVERRIDE":
                     print(f"  → [OVERRIDE] {reason}")
+
                     # Report local control mode so server knows override is active
+
                     put_der_status(
                         client=c,
                         ders_href=ders_href,
@@ -451,6 +552,11 @@ def main():
                         op_mode_value=OP_MODE_OPERATIONAL,
                         connected=True,
                     )
+
+
+            # Save current mRIDs for next poll's ended-event detection
+            prev_mrids = current_mrids
+
 
             c.disconnect()
 
