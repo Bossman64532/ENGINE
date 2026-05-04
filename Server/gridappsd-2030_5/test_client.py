@@ -48,18 +48,21 @@ def load_server_endpoint() -> tuple[str, int]:
         with config_path.open() as fp:
             config = yaml.safe_load(fp) or {}
 
-        endpoint = config.get("proxy_hostname") or f"{config.get('server', '192.168.110.129')}:{config.get('port', 8443)}"
+        endpoint = config.get("proxy_hostname") or f"{config.get('server', '192.168.149.137')}:{config.get('port', 8443)}"
         host, _, port = str(endpoint).partition(":")
         return host, int(port or 8443)
 
-    return "192.168.110.129", 8443
+    return "192.168.149.137", 8443
 
 
 # Certificate paths
 TLS_DIR = Path(os.getenv("IEEE2030_5_TLS_DIR", "~/tls")).expanduser()
 CA = Path(os.getenv("IEEE2030_5_CA", TLS_DIR / "certs" / "ca.crt")).expanduser()
-CERT = Path(os.getenv("IEEE2030_5_CERT", TLS_DIR / "combined" / "dev1-combined.pem")).expanduser()
-KEY = Path(os.getenv("IEEE2030_5_KEY", str(CERT))).expanduser()
+CERT = Path(os.getenv("IEEE2030_5_CERT", TLS_DIR / "certs" / "dev1.crt")).expanduser()
+KEY = Path(os.getenv("IEEE2030_5_KEY", TLS_DIR / "private" / "dev1.pem")).expanduser()
+print(CA)
+print(CERT)
+print(KEY)
 
 DEFAULT_SERVER_HOST, DEFAULT_HTTPS_PORT = load_server_endpoint()
 SERVER_HOST = os.getenv("IEEE2030_5_SERVER_HOST", DEFAULT_SERVER_HOST)
