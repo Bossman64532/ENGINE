@@ -31,8 +31,7 @@ xml_event = f"""<?xml version="1.0" encoding="UTF-8"?>
 response = requests.post(
     url,
     data=xml_event,
-    headers={"Content-Type": "application/sep+xml"},
-    cert='/home/engine/tls/combined/admin-combined.pem'
+    headers={"Content-Type": "application/sep+xml"}
 )
 
 print("Status:", response.status_code)
