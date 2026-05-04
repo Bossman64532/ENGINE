@@ -420,9 +420,11 @@ def initialize_2030_5(config: ServerConfiguration, tlsrepo: TLSRepository):
                 existing_device.sFDI = tlsrepo.sfdi(cfg_device.id)
                 existing_device.postRate = cfg_device.post_rate
 
-                # Link existing device to default FSA if available
-                default_fsa = None
-                if default_fsa:
+
+                # Link existing device to a device-specific FSA when a default
+                # program is available to seed it.
+                if config.default_program:
+
                     ed_href = hrefs.EndDeviceHref(device_index)
                     # Initialize FSA list if needed
                     # Create device-specific FSA
@@ -578,7 +580,15 @@ def initialize_2030_5(config: ServerConfiguration, tlsrepo: TLSRepository):
                 fsa_linked = False
 
                 # Create device-specific FSA for this device
-                fsa = create_device_fsa_with_program(end_device.href, config)
+                # Look up the program configured for this device by description
+                _device_program = None
+                for _prog_ref in getattr(cfg_device, 'programs', []):
+                    _desc = _prog_ref.get('description') if isinstance(_prog_ref, dict) else getattr(_prog_ref, 'description', None)
+                    if _desc and _desc in programs_by_description:
+                        _device_program = programs_by_description[_desc]
+                        _log.info(f"Linking device {cfg_device.id} to program '{_desc}'")
+                        break
+                fsa = create_device_fsa_with_program(end_device.href, config, device_program_override=_device_program)
                 device_specific_program_href = None
                 if fsa:
                     fsa_linked = True

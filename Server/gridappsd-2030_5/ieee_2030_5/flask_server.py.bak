@@ -6,11 +6,6 @@ import ssl
 import threading
 import time
 import uuid
-
-import atexit
-
-from copy import deepcopy
-
 from dataclasses import fields
 from datetime import datetime
 from functools import lru_cache
@@ -23,7 +18,7 @@ from flask import Flask, Response, g, redirect, render_template, request, url_fo
 # from flask_socketio import SocketIO, send
 from werkzeug.serving import BaseWSGIServer
 
-from ieee_2030_5.utils import dataclass_to_xml, xml_to_dataclass
+from ieee_2030_5.utils import dataclass_to_xml
 
 __all__ = ["build_server"]
 
@@ -938,15 +933,11 @@ def __build_app__(config: ServerConfiguration, tlsrepo: TLSRepository) -> Flask:
     ServerEndpoints(app, tls_repo=tlsrepo, config=config)
     AdminEndpoints(app, tls_repo=tlsrepo, config=config)
     
-
-
-    # ---- DR Event Endpoints ----
+        # ---- DR Event Endpoints ----
     dr_events = {}
     dr_status = {}
     reports = []
     event_state = {}
-    pending_derms_events: dict[str, str] = {}
-    pending_derms_lock = threading.Lock()
 
     def compute_event_status(event: dict, now: int | None = None) -> str:
         if now is None:
@@ -978,28 +969,11 @@ def __build_app__(config: ServerConfiguration, tlsrepo: TLSRepository) -> Flask:
 
         return compute_event_status(event, now)
 
-    def retry_pending_derms_events() -> None:
-        with pending_derms_lock:
-            pending_items = list(pending_derms_events.items())
-
-        for mrid, xml_payload in pending_items:
-            try:
-                synced_count = sync_event_to_client_controls(xml_payload)
-            except Exception as e:
-                _log.warning("Failed to retry DERMS event %s client sync: %s", mrid, e)
-                continue
-
-            if synced_count > 0:
-                with pending_derms_lock:
-                    pending_derms_events.pop(mrid, None)
-                _log.info("Pending DERMS event %s synced to %d client DERControlList(s)", mrid, synced_count)
-
     def scheduler_loop():
-        last_pending_retry = 0.0
         while True:
             now = int(time.time())
 
-            for mrid, event in list(dr_events.items()):
+            for mrid, event in dr_events.items():
                 if mrid not in event_state:
                     continue
 
@@ -1021,10 +995,6 @@ def __build_app__(config: ServerConfiguration, tlsrepo: TLSRepository) -> Flask:
                 elif state.get("status") == "active" and now >= end:
                     state["status"] = "expired"
                     state["lastUpdatedAt"] = now
-
-            if time.monotonic() - last_pending_retry >= 1.0:
-                retry_pending_derms_events()
-                last_pending_retry = time.monotonic()
 
             time.sleep(0.2)
 
@@ -1055,100 +1025,6 @@ def __build_app__(config: ServerConfiguration, tlsrepo: TLSRepository) -> Flask:
         event["currentStatus"] = compute_event_status(event, now)
         return event
 
-    def get_end_devices_for_derms_sync() -> list[m.EndDevice]:
-        end_devices = adpt.ListAdapter.get_resource_list("/edev")
-        if isinstance(end_devices, m.EndDeviceList) and end_devices.EndDevice:
-            return end_devices.EndDevice
-
-        fetched_devices = adpt.EndDeviceAdapter.fetch_all()
-        if isinstance(fetched_devices, m.EndDeviceList) and fetched_devices.EndDevice:
-            return fetched_devices.EndDevice
-
-        devices = []
-        for cfg_device in config.devices:
-            if not cfg_device.id:
-                continue
-
-            device_index = hrefs.get_device_hashed_index(cfg_device.id)
-            device = adpt.EndDeviceAdapter.fetch_by_href(f"/edev{hrefs.SEP}{device_index}")
-            if device:
-                devices.append(device)
-        if devices:
-            return devices
-
-        try:
-            import pickle
-
-            index_data = adpt.EndDeviceAdapter._db.get_point(adpt.EndDeviceAdapter._href_index_key)
-            if not index_data:
-                return []
-
-            href_index = pickle.loads(index_data)
-            devices = []
-            for device_index in sorted(set(href_index.values())):
-                device_data = adpt.EndDeviceAdapter._db.get_point(f"enddevice:{device_index}")
-                if device_data:
-                    devices.append(pickle.loads(device_data))
-            return devices
-        except Exception as e:
-            _log.warning("Failed to enumerate EndDeviceAdapter devices for DERMS sync: %s", e)
-            return []
-
-    def sync_event_to_client_controls(xml_payload: str) -> int:
-        parsed = xml_to_dataclass(xml_payload)
-        if not isinstance(parsed, m.DERControl):
-            raise ValueError("DERMS payload did not parse as DERControl")
-
-        end_devices = get_end_devices_for_derms_sync()
-        if not end_devices:
-            _log.warning("DERMS event received but no end devices were available for control sync")
-            return 0
-
-        synced_count = 0
-        for end_device in end_devices:
-            fsa_list = adpt.ListAdapter.get_list(f"{end_device.href}_fsa") or []
-            for fsa in fsa_list:
-                derp_list_link = getattr(fsa, "DERProgramListLink", None)
-                if not derp_list_link:
-                    continue
-
-                programs = adpt.ListAdapter.get_list(derp_list_link.href) or []
-                for program in programs:
-                    derc_link = getattr(program, "DERControlListLink", None)
-                    if not derc_link:
-                        continue
-
-                    derc_list = adpt.ListAdapter.get_resource_list(derc_link.href)
-                    if not isinstance(derc_list, m.DERControlList):
-                        continue
-
-                    existing_index = None
-                    for index, control in enumerate(derc_list.DERControl):
-                        if control.mRID == parsed.mRID:
-                            existing_index = index
-                            break
-
-                    control_copy = deepcopy(parsed)
-                    if existing_index is None:
-                        control_copy.href = f"{derc_link.href}{hrefs.SEP}{len(derc_list.DERControl)}"
-                        adpt.ListAdapter.append(derc_link.href, control_copy)
-                    else:
-                        control_copy.href = derc_list.DERControl[existing_index].href
-                        adpt.ListAdapter.put(derc_link.href, existing_index, control_copy)
-
-                    program.DERControlListLink.all = len(adpt.ListAdapter.get_list(derc_link.href) or [])
-                    _log.info(
-                        "DERMS event %s synced to client DERControlList %s",
-                        control_copy.mRID.hex() if isinstance(control_copy.mRID, bytes) else control_copy.mRID,
-                        derc_link.href,
-                    )
-                    synced_count += 1
-
-        if synced_count == 0:
-            _log.warning("DERMS event received but no client DERControlList was available for control sync")
-
-        return synced_count
-
     def log_event_created(event: dict) -> None:
         _log.info(
             "DER_EVENT_CREATED "
@@ -1170,18 +1046,12 @@ def __build_app__(config: ServerConfiguration, tlsrepo: TLSRepository) -> Flask:
             return Response("Bad Request", status=400)
 
         try:
-
-            # Parse XML
-
             ns = {"sep": "urn:ieee:std:2030.5:ns"}
             root = ET.fromstring(data)
 
             def find_text(tag):
                 el = root.find(f"sep:{tag}", ns)
                 return el.text if el is not None else None
-
-
-            # Extract fields
 
             mrid = find_text("mRID") or str(uuid.uuid4())
             description = find_text("description")
@@ -1240,11 +1110,6 @@ def __build_app__(config: ServerConfiguration, tlsrepo: TLSRepository) -> Flask:
                 "supersededBy": None,
             }
             dr_events[mrid] = event
-            synced_count = sync_event_to_client_controls(data)
-            if synced_count == 0:
-                with pending_derms_lock:
-                    pending_derms_events[mrid] = data
-                _log.info("Queued DERMS event %s for client DERControlList sync retry", mrid)
             log_event_created(event)
 
             return Response(
@@ -1358,7 +1223,6 @@ def __build_app__(config: ServerConfiguration, tlsrepo: TLSRepository) -> Flask:
             ),
             status=200,
             mimetype="application/json",
-
         )
 
     @app.route("/events/<event_id>/status", methods=["GET"])
@@ -1407,7 +1271,6 @@ def __build_app__(config: ServerConfiguration, tlsrepo: TLSRepository) -> Flask:
             json.dumps(reports),
             status=200,
             mimetype="application/json",
-
         )
 # TODO investigate socket-io connection here. 
     # TODO investigate socket-io connection here.
@@ -1917,9 +1780,9 @@ def build_server(config: ServerConfiguration, tlsrepo: TLSRepository, **kwargs) 
         "app": app,
         "host": host,
         "port": int(port),
-        "handler": IEEE2030_5_RequestHandler,
+        "request_handler": IEEE2030_5_RequestHandler,
         "ssl_context": ssl_context,
-        # "threaded": True,
+        "threaded": True,
         "passthrough_errors": False,
     }
 

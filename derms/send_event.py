@@ -1,7 +1,13 @@
 import requests
 import time
 
-url = "http://192.168.92.131:5002/derms/events"
+
+from derms_config import get_base_url
+
+
+base_url = get_base_url()
+url = f"{base_url}/derms/events"
+
 
 now = int(time.time())
 duration = 3600  # 1 hour

@@ -807,7 +807,7 @@ class RequestForwarder(BaseHTTPRequestHandler):
             self.send_response(response.status, response.reason)
 
             # Send headers, filtering out problematic ones
-            skip_headers = {"connection", "transfer-encoding", "content-length"}
+            skip_headers = {"connection", "keep-alive", "transfer-encoding", "content-length"}
 
             # Log what headers we're sending back to client
             _log.info(f"=== RESPONSE TO CLIENT {client_info} ===")
@@ -1115,7 +1115,7 @@ class RequestForwarder(BaseHTTPRequestHandler):
                 _log.warning(f"Could not extract client certificate info for client {client_info}: {e}")
 
             # Add Connection: close to server request to ensure proper cleanup
-            headers["Connection"] = "close"
+           # headers["Connection"] = "close"
 
             _log.info(f"Forwarding {method} {self.path} to {host}:{port} for client {client_info}")
             if "SSL-Client-Cert" in headers:

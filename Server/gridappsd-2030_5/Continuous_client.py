@@ -9,7 +9,7 @@ from ieee_2030_5.client.client import IEEE2030_5_Client
 CA   = "/home/engine/tls/certs/ca.crt"
 CERT = "/home/engine/tls/certs/dev1.crt"        # dev1 certificate
 KEY  = "/home/engine/tls/private/dev1.pem"   # dev1 private key
-serverHostname = "192.168.92.131"
+serverHostname = "192.168.149.138"
 # Create client each time a request is made, then disconnect after the request is complete.
 def make_request(request="/dcap", cafile=CA, server_hostname=serverHostname, keyfile=KEY, certfile=CERT, server_ssl_port=8443, debug=True):
     print(f"Making request: {request}")
