@@ -142,7 +142,6 @@ def main():
     ]
 
     print(f"Testing with local time epoch: {now}")
-
     for test in tests:
         post_event(
             mrid=test["mrid"],

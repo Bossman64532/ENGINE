@@ -60,9 +60,6 @@ TLS_DIR = Path(os.getenv("IEEE2030_5_TLS_DIR", "~/tls")).expanduser()
 CA = Path(os.getenv("IEEE2030_5_CA", TLS_DIR / "certs" / "ca.crt")).expanduser()
 CERT = Path(os.getenv("IEEE2030_5_CERT", TLS_DIR / "certs" / "dev1.crt")).expanduser()
 KEY = Path(os.getenv("IEEE2030_5_KEY", TLS_DIR / "private" / "dev1.pem")).expanduser()
-print(CA)
-print(CERT)
-print(KEY)
 
 DEFAULT_SERVER_HOST, DEFAULT_HTTPS_PORT = load_server_endpoint()
 SERVER_HOST = os.getenv("IEEE2030_5_SERVER_HOST", DEFAULT_SERVER_HOST)
@@ -113,6 +110,7 @@ def make_client() -> IEEE2030_5_Client:
         server_ssl_port=HTTPS_PORT,
         debug=False,
     )
+    
     c.device_capability("/dcap")
     return c
 
