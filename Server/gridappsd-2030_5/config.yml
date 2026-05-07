@@ -1,8 +1,8 @@
 
-server: 192.168.149.137
+server: 178.128.190.144
 port: 8443
 service_name: IEEE_2030_5
-proxy_hostname: 192.168.149.138:8443
+proxy_hostname: 178.128.190.144:8443
 
 proxy_enabled: True
 
