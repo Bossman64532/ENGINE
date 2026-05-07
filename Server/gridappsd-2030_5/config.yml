@@ -1,5 +1,5 @@
 
-server: 178.128.190.144
+server: powercontrolserver.me
 port: 8443
 service_name: IEEE_2030_5
 proxy_hostname: 178.128.190.144:8443
