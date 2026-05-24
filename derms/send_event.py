@@ -5,7 +5,7 @@ import time
 from derms_config import get_base_url
 
 
-base_url = get_base_url()
+base_url = "http://192.168.149.137:5002" #get_base_url()
 url = f"{base_url}/derms/events"
 
 
@@ -23,7 +23,7 @@ xml_event = f"""<?xml version="1.0" encoding="UTF-8"?>
   <randomizeDuration>0</randomizeDuration>
   <randomizeStart>0</randomizeStart>
   <DERControlBase>
-    <opModMaxLimW multiplier="0">2000</opModMaxLimW>
+    <opModMaxLimW multiplier="0">200</opModMaxLimW>
     <opModConnect>true</opModConnect>
   </DERControlBase>
 </DERControl>"""
