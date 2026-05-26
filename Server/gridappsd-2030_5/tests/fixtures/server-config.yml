@@ -1,0 +1,96 @@
+server: localhost
+# Only include if we need to have dcap be available
+# http_port: 8080
+port: 8888
+
+tls_repository: "~/tls_testing"
+openssl_cnf: "openssl.cnf"
+
+#server_mode: enddevices_register_access_only
+#server_mode: enddevices_create_on_start
+
+# lfdi_mode: Determines what piece of information is used to calculate the lfdi
+#
+# Options:
+#   lfdi_mode_from_file             - sha256 hash of certificate file's content.
+#   lfdi_mode_from_cert_fingerprint - sha256 hash of the certificates fingerprint.
+#
+# default: lfdi_mode_from_cert_fingerprint
+lfdi_mode: lfdi_mode_from_cert_fingerprint
+#lfdi_mode: lfdi_mode_from_cert_fingerprint
+
+# Create an administrator certificate that can be used from
+# browser/api to connect to the platform.
+generate_admin_cert: True
+
+log_event_list_poll_rate: 60
+device_capability_poll_rate: 60
+
+# Directory containing data files for the platform.
+# This directory will be created if it does not exist.
+storage_path: data_store
+cleanse_storage: true
+
+# If set to true, all devices will get a default DER object with the default program
+include_default_der_on_all_devices: true
+
+# Default program for all devices (required if include_default_der_on_all_devices is true)
+default_program:
+  description: Default Program
+  primacy: 0
+  DefaultDERControl:
+    setESDelay: 30
+    setGradW: 1000
+    DERControlBase:
+      opModConnect: true
+      opModEnergize: true
+
+devices:
+  - id: dev5
+    pin: 111115
+    fsas:
+      - Function Set Assignments 1
+
+  - id: dev6
+    pin: 111115
+    fsas:
+      - Function Set Assignments 2
+
+fsas:
+  - description: Function Set Assignments 1
+    programs:
+    - Program 1
+
+  - description: Function Set Assignments 2
+    programs:
+    - Program 1
+
+programs:
+  - description: Program 1
+    primacy: 0
+    DefaultDERControl:
+      setESDelay: 30
+      setGradW: 1000
+      
+      DERControlBase:
+        opModConnect: true
+        opModEnergize: true
+
+curves:
+  - description: Curve 1
+    curveType: opModVoltVar
+    CurveData:
+      - xvalue: 99
+        yvalue: 50
+      - xvalue: 103
+        yvalue: -50
+      - xvalue: 101
+        yvalue: -50
+      - xvalue: 97
+        yvalue: 50
+    rampDecTms: 600
+    rampIncTms: 600
+    rampPT1Tms: 10
+    xMultiplier: 0
+    yMultiplier: 0
+    yRefType: 3

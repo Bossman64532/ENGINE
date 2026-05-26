@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Execute A Client Request</title>
+    <style>
+        .nav-header {
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .nav-header a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .nav-header a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function onchange_template(val) {
+            console.write("new value is: " + val);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="nav-header">
+        <a href="/admin/">← Back to Admin Home</a>
+    </div>
+    <h1>Execute a Request to the Server</h1>
+    <form method="POST" action="{{ url_for('execute_method') }}">
+
+        <div>
+            <label for="method">Method: <select name="method">
+                    <option value="post" default="default">POST</option>
+                    <option>GET</option>
+                </select></label>
+        </div>
+        <div>
+            <label for="path">Endpoint: <input type="text" name="endpoint" /></label>
+        </div>
+        <!-- <div>
+                <label for="templates">Template: <select name="templates" onchange="onchange_template(this.value)">
+                        <option name="none" default="default">No Template</option>
+                        <option name="MirrorUsagePoint">MirrorUsagePoint</option>
+                    </select></label>
+            </div> -->
+        <div>
+            <label for="body">Body: <br />
+                <textarea name="body" cols="80" rows="50"></textarea></label>
+        </div>
+        <div>
+            <button>Send to Server</button>
+        </div>
+    </form>
+
+
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+from ieee_2030_5.client.client import IEEE2030_5_Client
+import time
+
+# Certificate paths
+CA   = "/home/engine/tls/certs/ca.crt"
+CERT = "/home/engine/tls/certs/dev1.crt"       # dev1 certificate
+KEY  = "/home/engine/tls/private/dev1.pem"   # dev1 private key
+
+# Create client
+def make_client():
+    c = IEEE2030_5_Client(
+        cafile=CA,
+        server_hostname="192.168.110.128",
+        keyfile=KEY,
+        certfile=CERT,
+        server_ssl_port=8443,
+        debug=False
+    )
+    c.device_capability("/dcap")
+    return c
+
+client = make_client()
+
+print("\n=== DEVICE CAPABILITY ===")
+print(client.device_capability("/dcap"))
+print("\n=== TIME ===")
+print(client.time())
+print("\n=== END DEVICES ===")
+edev_list = client.end_devices()
+for ed in edev_list.EndDevice:
+    print("sFDI:", ed.sFDI, "href:", ed.href, "lFDI:", ed.lFDI)
+print("\n=== DEVICE CONFIGURATION ===")
+print(client.request("/edev_38879_cfg"))
+print("\n=== DEVICE INFORMATION ===")
+print(client.request("/edev_38879_di"))
+print("\n=== DEVICE STATUS ===")
+print(client.request("/edev_38879_dstat"))
+print("\n=== POWER STATUS ===")
+print(client.request("/edev_38879_ps"))
+print("\n=== REGISTRATION ===")
+print(client.request("/edev_38879_rg"))
+print("\n=== FUNCTION SET ASSIGNMENTS ===")
+print(client.request("/edev_38879_fsa"))
+print("\n=== DER LIST ===")
+print(client.request("/edev_38879_der"))
+print("\n=== DER PROGRAMS ===")
+print(client.request("/derp"))
+print("\n=== DEVICE DER PROGRAM ===")
+print(client.request("/edev_38879_fsa_0_derp_0"))
+print("\n=== DEFAULT DER CONTROL ===")
+print(client.request("/edev_38879_fsa_0_derp_0_dderc"))
+print("\n=== DER CONTROL LIST ===")
+print(client.request("/edev_38879_fsa_0_derp_0_derc"))
+print("\n=== DER CURVES ===")
+print(client.request("/dc"))
+print("\n=== MIRROR USAGE POINTS ===")
+print(client.request("/mup"))
+print("\n=== USAGE POINTS ===")
+print(client.request("/upt"))
+print("\n=== LOG EVENTS ===")
+print(client.request("/edev_38879_lel"))
+client.disconnect()
+
+print("\n=== POLLING (every 1 seconds, 5 times) ===")
+for i in range(5):
+    print(f"\n--- Poll #{i+1} at {time.strftime('%H:%M:%S')} ---")
+    try:
+        c = make_client()
+        t = c.time()
+        print(f"  currentTime: {t.currentTime}")
+        ps = c.request("/edev_38879_ps")
+        print(f"  PowerStatus: {ps}")
+        c.disconnect()
+    except Exception as e:
+        print(f"  ERROR: {e}")
+    time.sleep(3)
+
+print("\nDone.")
