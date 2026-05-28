@@ -104,13 +104,13 @@ for i in range(len(control_list)):
 #   </DERControlBase>
 # </DERControl>"""
 
-response = requests.post(
-    url,
-    data=xml_event,
-    headers={"Content-Type": "application/sep+xml"},
-    cert='/home/engine/tls/combined/admin-combined.pem'
-)
+#response = requests.post(
+#    url,
+#    data=xml_event,
+#    headers={"Content-Type": "application/sep+xml"},
+#    cert='/home/engine/tls/combined/admin-combined.pem'
+#)
 
-print("Status:", response.status_code)
-print("Response:", response.text)
+#print("Status:", response.status_code)
+#print("Response:", response.text)
 
