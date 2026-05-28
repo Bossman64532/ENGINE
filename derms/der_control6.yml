@@ -1,0 +1,10 @@
+controls:
+	# FULL DISCONNECT
+      # Disconnects inverter fully from the grid for maintenance
+      # or scheduled nightly disconnect (no sun)
+      - description: Microinverter Full Disconnect Control
+        base:
+          opModConnect: false   # disconnected from grid
+          opModEnergize: false  # de-energized
+
+      

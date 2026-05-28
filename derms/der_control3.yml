@@ -1,0 +1,12 @@
+controls:
+# PEAK SHAVING 50% - Medium curtailment
+      # Reduces max power output by 50% (295 W -> 148 W)
+      - description: Microinverter Peak Shaving 50 pct Control
+        base:
+          opModConnect: true
+          opModEnergize: true
+          opModMaxLimW: 148
+          setGradW: 500         # 5% per second, 20s rampup, more severe grid conditions need faster response
+          setESRandomDelay: 60  # 1 minute spread, even smaller window
+
+      

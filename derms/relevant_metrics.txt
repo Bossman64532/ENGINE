@@ -1,0 +1,27 @@
+opModConnect = True
+opModEnergize = True
+opModMaxLimW = 295
+opModFixedW = 148
+opModTargetW = 200
+opModFixedVar = 50
+opModTargetVar = 0
+opModWattVar = None
+opModFixedPFAbsorbW = 9500
+opModFixedPFInjectW = 9000
+opModWattPF = None
+opModVoltVar = None
+opModVoltWatt = None
+opModFreqWatt = None
+opModFreqDroop = None
+opModHVRTMustTrip = None
+opModHVRTMayTrip = None
+opModHVRTMomentaryCessation = None
+opModLVRTMustTrip = None
+opModLVRTMayTrip = None
+opModLVRTMomentaryCessation = None
+opModHFRTMustTrip = None
+opModHFRTMayTrip = None
+opModLFRTMustTrip = None
+opModLFRTMayTrip = None
+rampTms = 500
+

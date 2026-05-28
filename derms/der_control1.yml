@@ -1,0 +1,11 @@
+controls:
+      # DEFAULT CONTROL - Normal operating behavior
+      - description: Microinverter Default Control
+        setESDelay: 300
+        base:
+          opModConnect: true
+          opModEnergize: true
+          opModMaxLimW: 295
+          opModFixedW: 148
+          
+      
