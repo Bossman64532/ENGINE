@@ -1,8 +1,8 @@
 #derms
 import sys
 
-sys.path.insert(0, '/home/engine/Documents/ENGINE/Server/ENGINE/Server/gridappsd-2030_5/ieee_2030_5')
-sys.path.insert(0, '/home/engine/Documents/ENGINE/Server/ENGINE/Server/gridappsd-2030_5/ieee_2030_5/models/')
+sys.path.insert(0, '/root/ENGINE/ENGINE/Server/gridappsd-2030_5/ieee_2030_5')
+sys.path.insert(0, '/root/ENGINE/ENGINE/Server/gridappsd-2030_5/ieee_2030_5/models/')
 import argparse
 import dataclasses
 
@@ -27,9 +27,9 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument("yml_file",
                     help="Path to the YAML events file")
-parser.add_argument("--url",      default="http://192.168.149.137:5002",
+parser.add_argument("--url",      default="http://127.0.0.1:5002",
                     help="Base server URL")
-parser.add_argument("--cert",     default="/home/engine/tls/combined/admin-combined.pem",
+parser.add_argument("--cert",     default="/root/tls/combined/admin-combined.pem",
                     help="Path to client certificate PEM")
 parser.add_argument("--endpoint", default="/derms/events",
                     help="Server endpoint path")
