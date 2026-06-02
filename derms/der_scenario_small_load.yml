@@ -1,0 +1,34 @@
+controls:
+      # DEFAULT CONTROL - Normal operating behavior
+      - description: Microinverter Default Control
+        setESDelay: 300
+        base:
+          opModConnect: true
+          opModEnergize: true
+          opModMaxLimW: 295
+          opModFixedW: 100
+          opModTargetW: 200
+          opModFixedVar: 50
+          opModTargetVar: 0
+          opModWattVar: None
+          opModFixedPFAbsorbW: 9500
+          opModFixedPFInjectW: 9000
+          opModWattPF: None
+          opModVoltVar: None
+          opModVoltWatt: None
+          opModFreqWatt: None
+          opModFreqDroop: None
+          opModHVRTMustTrip: 125
+          opModHVRTMayTrip: 123
+          opModHVRTMomentaryCessation: 122
+          opModLVRTMustTrip: 115
+          opModLVRTMayTrip: 117
+          opModLVRTMomentaryCessation: 118
+          opModHFRTMustTrip: 61
+          opModHFRTMayTrip: 60.7
+          opModLFRTMustTrip: 58
+          opModLFRTMayTrip: 59
+          rampTms: 500
+
+
+      

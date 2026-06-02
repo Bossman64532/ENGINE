@@ -71,6 +71,9 @@ def create_device_fsa_with_program(device_href: str, config: ServerConfiguration
         )
 
         # Set up DefaultDERControl for this device if configured
+        #print(config)
+        #print("hi")
+        print(config.programs[0]['controls'])
         if config.default_der_control:
             dderc_href = hrefs.SEP.join((device_program.href, "dderc"))
 

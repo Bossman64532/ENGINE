@@ -293,14 +293,14 @@ def initialize_2030_5(config: ServerConfiguration, tlsrepo: TLSRepository):
     for index, program_cfg in enumerate(config.programs):
         with atomic_operation():
             program_hrefs = hrefs.DERProgramHref(adpt.ListAdapter.get_list_size(hrefs.DEFAULT_DERP_ROOT))
-
+            program_cfg_copy = program_cfg.copy()
             # Pop off default_der_control if specified
-            default_der_control = program_cfg.pop("DefaultDERControl", None)
-            program_cfg.pop("default_control", None)
-            program_cfg.pop("controls", None)
-            program_cfg.pop("curves", None)
+            default_der_control = program_cfg_copy.pop("DefaultDERControl", None)
+            program_cfg_copy.pop("default_control", None)
+            program_cfg_copy.pop("controls", None)
+            program_cfg_copy.pop("curves", None)
 
-            program = m.DERProgram(**program_cfg)
+            program = m.DERProgram(**program_cfg_copy)
             if not program.mRID:
                 program.mRID = adpt.get_global_mrids().new_mrid()
 

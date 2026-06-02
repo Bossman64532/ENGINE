@@ -4,7 +4,7 @@ import requests
 from derms_config import get_base_url
 
 
-BASE_URL = get_base_url()
+BASE_URL = "http://192.168.149.137:5002" #get_base_url()
 POST_URL = f"{BASE_URL}/derms/events"
 GET_URL = f"{BASE_URL}/events"
 

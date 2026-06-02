@@ -51,7 +51,9 @@ def load_server_endpoint() -> tuple[str, int]:
         host, _, port = str(endpoint).partition(":")
         return host, int(port or 8443)
 
+
     return "178.128.190.144", 8443
+
 
 
 # Certificate paths
@@ -156,7 +158,8 @@ def post_response(client: IEEE2030_5_Client,
             subject=mrid_bytes,
         )
         xml_body = utils.dataclass_to_xml(resp_obj)
-        client.request("/rsps", body=xml_body, method="POST")
+        postresponse = client.request("/rsps", body=xml_body, method="POST")
+        print(f"{postresponse}") #So we can see the actual response
         print(f"  [response] status={status_code} posted to /rsps for "
               f"mRID {event.mRID[:8] if isinstance(event.mRID, str) else event.mRID.hex()[:8]}...")
 
@@ -218,7 +221,8 @@ def put_der_status(client: IEEE2030_5_Client,
 
     try:
         xml_body = utils.dataclass_to_xml(status)
-        client.request(ders_href, body=xml_body, method="PUT")
+        putresponse = client.request(ders_href, body=xml_body, method="PUT")
+        print(f"{putresponse}")
         print(f"  [status]   PUT DERStatus to {ders_href}")
         print(f"             inverterStatus={inverter_status_value}  "
               f"opMode={op_mode_value}  connected={connected}")

@@ -1,0 +1,8 @@
+*.pyc
+__pycache__/
+*.pem
+*.crt
+client_dev1.txt
+/IEEE-2030.5-Client
+/Engine_Server
+/Server/Engine_Server
