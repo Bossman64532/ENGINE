@@ -81,7 +81,7 @@ for i in range(len(control_list)):
         url,
         data=xml_event,
         headers={"Content-Type": "application/sep+xml"},
-        cert='/home/engine/tls/combined/admin-combined.pem'
+        cert='/root/tls/combined/admin-combined.pem'
         )
 
         print("Status:", response.status_code)
