@@ -5,7 +5,7 @@ controls:
         base:
           opModConnect: true
           opModEnergize: true
-          opModMaxLimW: 295
+          opModMaxLimW: 245
           opModFixedW: 200
           opModTargetW: 200
           opModFixedVar: 50

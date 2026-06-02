@@ -1,3 +1,4 @@
+#derms
 import sys
 
 sys.path.insert(0, '/home/engine/Documents/ENGINE/Server/ENGINE/Server/gridappsd-2030_5/ieee_2030_5')
@@ -16,7 +17,7 @@ import yaml
 import ieee_2030_5.models as m
 from ieee_2030_5.utils import dataclass_to_xml
 from ieee_2030_5.config import InvalidConfigFile, ServerConfiguration
-import xml.dom.minidom  # <-- ADD THIS IMPORT
+import xml.dom.minidom  
 
 
 from derms_config import get_base_url
@@ -43,7 +44,7 @@ url = f"{opts.url}{opts.endpoint}"
 now = int(time.time())
 duration = 3600  # 1 hour
 
-print(cfg_dict)
+#print(cfg_dict)
 control_list = cfg_dict['controls']
 
 for i in range(len(control_list)):
@@ -64,14 +65,14 @@ for i in range(len(control_list)):
                 xml_event += f"\n<{base_key}>{DERControlBase[base_key]}</{base_key}>"
             xml_event += f"\n</DERControlBase>"
     xml_event += f"\n</DERControl>"
-     # --- ADD THIS FORMATTING BLOCK ---
+    
     # Parse the raw flat XML string
     dom = xml.dom.minidom.parseString(xml_event)
     # Re-render it with 2 spaces of indentation, ignoring extra text spaces
     xml_event = dom.toprettyxml(indent="  ")
     # Clean up empty lines that minidom sometimes introduces
     xml_event = "\n".join([line for line in xml_event.splitlines() if line.strip()])
-    # ---------------------------------
+    
     
     if opts.dry_run:
         print(xml_event)
